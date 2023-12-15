@@ -1,0 +1,18 @@
+.texto_cursos{
+    margin-left: 90px;
+    margin-top: 40px;
+}
+#wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 50vh; /* 100% de la altura de la ventana gráfica */
+    margin-bottom: -40pc;
+  }
+  
+  #sin_cursos {
+    text-align: center; /* Alinea el contenido dentro del div al centro */
+  }
+  

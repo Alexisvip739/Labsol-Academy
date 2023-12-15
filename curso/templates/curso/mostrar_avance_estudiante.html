@@ -1,0 +1,63 @@
+{% extends 'base.html' %} 
+{%load static%} 
+{% block title %} Avance de estudiantes {% endblock title %} 
+
+{% block contenido %}
+
+<div class="row mt-3">
+  {% for alumno in pagination %}
+  <div class="col-md-4 col-sm-6 col-xs-12">
+    <div class="card hm-50 p-1 my-1 shadow">
+      <div class="card-head bg-info border border-info-subtle p-3 rounded mb-3 shadow" style="height: 50px;">
+        <div class="d-flex align-items-center">
+          <div class="bg-light rounded-circle align-items-center me-2" style="padding: 3px;">
+            <img class="avatar rounded-circle" style="min-width: 25px;" src="{{alumno.estudiante.profile_picture.url}}">
+          </div>
+          <h3 class="text-truncate">{{alumno.estudiante.first_name}} {{alumno.estudiante.last_name}}</h3>
+        </div>
+      </div>
+      <div class="card-body progreso p-3">
+        <div class="text-muted">
+          Ha mirado {{alumno.visto}} de {{alumno.total}} clases
+        </div>
+        <p class="m-0 text-end"><span class="porcentaje">{{alumno.porcentaje}}</span>%</p>
+        <div class="progress" arial-label="Avance del estudiante en el curso">
+          <div class="progress-bar" style="width: {{alumno.porcentaje}}%;"></div>
+        </div>
+      </div>    
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock contenido %}
+
+{% block pagination %}  {% include 'paginacion.html' %} {% endblock pagination %}
+
+
+{% block js %}
+<script>
+  const progressBars = document.querySelectorAll('.progreso');
+
+  progressBars.forEach(progressBar => { 
+    porcentage = parseInt(progressBar.querySelector('.porcentaje').textContent);
+    bar = progressBar.querySelector('.progress-bar');
+
+    if(porcentage < 50){
+      bar.classList.add('bg-danger')
+    }else if(porcentage >= 50 && porcentage<100){
+      bar.classList.add('bg-warning')
+    }else{
+      bar.classList.add('bg-success')
+    }
+
+  });
+
+</script>
+{% endblock js %}
+  
+
+
+
+
+

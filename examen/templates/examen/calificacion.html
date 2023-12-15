@@ -1,0 +1,35 @@
+{% extends 'base.html' %} 
+{% load static %}
+
+{% block title %} Calificaciones de estudiantes {% endblock title %}
+
+{% block contenido %}
+{% include 'message.html' %}
+<div class="card">
+    <div class="table-responsive">
+        <table class="table table-vcenter card-table">
+            <thead>
+                <tr>
+                    <th>Nombre del estudiante</th>
+                    <th>Calificación</th>    
+                </tr>
+            </thead>
+            <tbody>
+                {% for calificacion in pagination %}
+                <tr>
+                    <td class="text-muted">{{ calificacion.estudiante }}</td>
+                    <td> {{ calificacion.calificacion }} </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td  colspan="5">No hay calificaciones registradas aún.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock contenido %}
+
+{% block pagination %}  {% include 'paginacion.html' %} {% endblock pagination %}

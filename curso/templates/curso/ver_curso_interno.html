@@ -1,0 +1,314 @@
+{% extends 'base.html' %} 
+{% load static %}
+
+{% block title %} Detalles del curso {% endblock title %}
+{% block botones %} 
+{% if request.user.user_type != 'estudiante' %}
+  <span class="d-none d-sm-inline">
+    <a href="{% url 'curso:inscrito_curso' curso.id %}" class="btn btn-outline-primary btn-pill d-none d-sm-inline-block" >
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-accessible" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+     <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
+     <path d="M10 16.5l2 -3l2 3m-2 -3v-2l3 -1m-6 0l3 1"></path>
+     <circle cx="12" cy="7.5" r=".5" fill="currentColor"></circle>
+  </svg>
+      Ver inscritos
+    </a>
+
+    {% if request.user.user_type == 'instructor' %}
+
+    <a href="#" class="btn btn-outline-primary btn-pill d-none d-sm-inline-block" data-bs-toggle="modal" data-bs-target="#notificacion" >
+      Enviar notificación
+    </a>
+
+    <a href="{% url 'curso:ver_notificaciones' curso.id %}" class="btn btn-outline-primary btn-pill d-none d-sm-inline-block" >
+      Ver Notificaciones
+    </a>
+    {% endif %}
+
+  </span>
+
+ {% endif %}
+{% if request.user.user_type == 'instructor' %}
+ <span class="d-none d-sm-inline">
+    <a href="{% url 'curso:editar_curso' curso.id %}" class="btn btn-primary ms-auto"> 
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
+        <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path>
+        <path d="M16 5l3 3"></path>
+      </svg>
+     Editar
+    </a>
+  </span>
+ {% endif %}
+{% endblock botones %}
+
+
+{% block contenido %}
+{% include 'message.html' %}
+  <div class="container-fluid" style="background-color: #2F3659; border-radius: 10px;">
+    <div class="container py-5">
+        <div class="row">
+          <div class="col-md-12 col-lg-5 order-md-0 order-lg-1">
+            <div class="embed-responsive embed-responsive-16by9">
+              <center>
+                <img src="{{ curso.miniatura.url }}" class="embed-responsive-item img-fluid" style="min-width: 180px; min-height: 120px; max-width: 100px; max-height: 100px; border-radius: 10px; justify-content: center;">
+              </center>
+            </div>
+          </div>
+            <div class="col-md-12  col-lg-7 text-white order-md-1 order-lg-0">
+                <h1 class=" fw-bold fs-2 ">{{ curso.nombre }}</h1>
+                <p class="mb-0" style="font-size: 13px;">Creado por {{curso.instructor.first_name }} {{curso.instructor.last_name }}</p>
+                
+                <div class="pt-1">
+                    <ul class="list-unstyled d-flex">
+                        {% for etiqueta in etiquetas %}
+                          <li class="px-2 bg-primary fw-bold rounded-pill me-1" style="font-size: 11px;">{{ etiqueta.nombre }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <div class="border p-4">
+        <p class="small justify-content-center">
+          {{curso.descripcion}}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="container mt-4">
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="mb-3">
+          <label class="fw-bold fs-4 mb-4"> Contenido del curso</label>
+          <ul class="list-unstyled d-flex mb-1">
+            <li class="text-dark me-4 ms-3 m-0" >
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-badge-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M13 7h-6l4 5l-4 5h6l4 -5z"></path>
+              </svg>
+              Clases disponibles: {{ num_clases }} 
+            </li>
+            <li class="text-dark me-4 ms-3 m-0" >
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-badge-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M13 7h-6l4 5l-4 5h6l4 -5z"></path>
+              </svg>
+              Examenes disponibles: {{ num_examen }} 
+            </li>
+            
+          </ul>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="mb-3">
+          <label class="fw-bold fs-4 mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pdf" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+              <path d="M10 8v8h2a2 2 0 0 0 2 -2v-4a2 2 0 0 0 -2 -2h-2z"></path>
+              <path d="M3 12h2a2 2 0 1 0 0 -4h-2v8"></path>
+              <path d="M17 12h3"></path>
+              <path d="M21 8h-4v8"></path>
+            </svg>
+            Archivo PDF:
+          </label>
+          {% if  curso.archivo_pdf %}
+            <a class="d-block" href='{{curso.archivo_pdf.url}}'>
+              <center> 
+                <img src="{% static 'img/pdf.png' %}" width="100" height="80" >
+              </center>
+            </a><br>
+          {% else %}
+            <label class="d-block"> No hay archivos pdf disponibles para este curso</label>
+          {% endif %}  
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <table class="table table-bordered table-bordered-all table-light" style="border-left-color: red;">
+    <tbody>
+      {% if request.user.user_type == 'instructor' or request.user.user_type == 'admin' or request.user.is_superuser %}
+        <tr>
+          <td class="px-4 fw-bold"> 
+            <label class="row">
+              <span class="col" >
+                Clases disponibles: 
+              </span>
+              {% if request.user.user_type == 'instructor' %}
+                <span class="col-auto" data-bs-toggle="modal" data-bs-target="#modal-clase">
+                  <a  class="bg-azure-lt">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                      <path d="M12.5 21h-7.5a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v7.5"></path>
+                      <path d="M16 19h6"></path>
+                      <path d="M19 16v6"></path>
+                    </svg>
+                    Agregar más
+                  </a>
+                </span>
+              {% endif %}
+            </label>
+          </td>
+        </tr>
+      {% endif %}
+      {% for clase in clases %}
+        <tr>
+            <td class="px-4 fw-bold"> 
+             <label class="row">
+                  <span class="col">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-player-track-next-filled" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                      <path d="M2 5v14c0 .86 1.012 1.318 1.659 .753l8 -7a1 1 0 0 0 0 -1.506l-8 -7c-.647 -.565 -1.659 -.106 -1.659 .753z" stroke-width="0" fill="currentColor"></path>
+                      <path d="M13 5v14c0 .86 1.012 1.318 1.659 .753l8 -7a1 1 0 0 0 0 -1.506l-8 -7c-.647 -.565 -1.659 -.106 -1.659 .753z" stroke-width="0" fill="currentColor"></path>
+                    </svg>
+                    {{clase}}
+                  </span>
+                  {% if request.user.user_type == 'instructor' or request.user.user_type == 'admin' or request.user.is_superuser %}
+                    <span class="col-auto">
+                      <a href="{% url 'clase:ver_clase' clase.id %}" class="bg-azure-lt">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-file-broken" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                           <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                           <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
+                           <path d="M5 7v-2a2 2 0 0 1 2 -2h7l5 5v2"></path>
+                           <path d="M19 19a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2"></path>
+                           <path d="M5 16h.01"></path>
+                           <path d="M5 13h.01"></path>
+                           <path d="M5 10h.01"></path>
+                           <path d="M19 13h.01"></path>
+                           <path d="M19 16h.01"></path>
+                        </svg> Ver 
+                      </a>
+                    </span>
+                    {% if request.user.user_type == 'instructor' %}
+                      <span class="col-auto">
+                        <a class="bg-red-lt" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-userid="{{ clase.id }}" > 
+                          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                             <path d="M4 7h16"></path>
+                             <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"></path>
+                             <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
+                             <path d="M10 12l4 4m0 -4l-4 4"></path>
+                          </svg> Borrar 
+                        </a>
+                      </span>
+                    {% endif %}
+                  {% endif %}
+             </label>
+            </td>
+        </tr>
+      {% endfor %}                 
+    </tbody>
+  </table>
+
+  <table class="table table-bordered table-bordered-all table-light" style="border-left-color: red">
+    <tbody>
+      {% if request.user.user_type == 'instructor' or request.user.user_type == 'admin' or request.user.is_superuser %}
+        <tr>
+          <td class="px-4 fw-bold"> 
+            <label class="row">
+              <span class="col" >
+                Examen disponibles: 
+              </span>
+              <span class="col-auto" data-bs-toggle="modal" data-bs-target="#modal-examen">
+                {% if num_examen == 0 and  request.user.user_type == 'instructor' %}
+                <a  class="bg-azure-lt">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M12.5 21h-7.5a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v7.5"></path>
+                    <path d="M16 19h6"></path>
+                    <path d="M19 16v6"></path>
+                  </svg>
+                  Agregar más
+                </a>
+                {% endif %}
+              </span>
+            </label>
+          </td>
+        </tr>
+      {% endif %}
+      {% for examen_datos in examen %}
+        <tr>
+            <td class="px-4 fw-bold"> 
+             <label class="row">
+                  <span class="col">
+                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-player-track-next-filled" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                      <path d="M2 5v14c0 .86 1.012 1.318 1.659 .753l8 -7a1 1 0 0 0 0 -1.506l-8 -7c-.647 -.565 -1.659 -.106 -1.659 .753z" stroke-width="0" fill="currentColor"></path>
+                      <path d="M13 5v14c0 .86 1.012 1.318 1.659 .753l8 -7a1 1 0 0 0 0 -1.506l-8 -7c-.647 -.565 -1.659 -.106 -1.659 .753z" stroke-width="0" fill="currentColor"></path>
+                    </svg>
+                  {{examen_datos}}</span>
+                  <span class="col-auto">
+                    <a  class="bg-azure-lt" href="{% url 'examen:detalles_examen' examen_datos.id %}">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-file-broken" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                         <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
+                         <path d="M5 7v-2a2 2 0 0 1 2 -2h7l5 5v2"></path>
+                         <path d="M19 19a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2"></path>
+                         <path d="M5 16h.01"></path>
+                         <path d="M5 13h.01"></path>
+                         <path d="M5 10h.01"></path>
+                         <path d="M19 13h.01"></path>
+                         <path d="M19 16h.01"></path>
+                      </svg> Ver 
+                    </a>
+                  </span>
+                  {% if request.user.user_type == 'instructor' %}
+                    <span class="col-auto">
+                      <a class="bg-red-lt" data-bs-toggle="modal" data-bs-target="#confirmDeleteExamen" data-examenid="{{ examen_datos.id }}" > 
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                           <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                           <path d="M4 7h16"></path>
+                           <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"></path>
+                           <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
+                           <path d="M10 12l4 4m0 -4l-4 4"></path>
+                        </svg> Borrar 
+                      </a>
+                    </span>
+                  {% endif %}
+                </label>
+            </td>
+        </tr>
+      {% endfor %}                    
+    </tbody>
+  </table>
+{% endblock contenido %}
+
+
+
+
+{% block js %}
+  {% include 'examen/modal-examen.html' %}
+  {% include 'clase/modal-clase.html' %}
+  {% include 'clase/modal-eliminar_clase.html' %}
+  {% include 'examen/modal_eliminar_examen.html' %}
+  {% include 'clase/script-clase.html' %}
+  {% include 'notificacion/modal_enviar_notificacion.html' %}
+  <script src="{% static 'js/jquery-3.5.1.slim.min.js' %}" ></script>
+  <script src="{% static 'js/spinner.js' %}"></script>
+  <script src="{% static 'js/enviar_notificaciones.js' %}"></script>
+  
+  
+
+  <script>
+  var deleteExamenBtns = document.querySelectorAll('.bg-red-lt');
+  deleteExamenBtns.forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      var examenId = btn.getAttribute('data-examenid');
+      var deleteUrl = '/examen/eliminar_examen/' + examenId ;
+
+      var deleteExamenModalBtn = document.getElementById('deleteExamenBtn');
+      deleteExamenModalBtn.setAttribute('href', deleteUrl);
+    });
+  });
+</script>
+
+{% endblock js %}

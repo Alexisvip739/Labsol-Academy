@@ -1,0 +1,107 @@
+<div class="modal modal-blur fade" id="confirmAceptModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog  modal-sm modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      <div class="modal-status  bg-success"></div>
+      <div class="modal-body text-center py-4">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon mb-2 text-green icon-lg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9" /><path d="M9 12l2 2l4 -4" />
+        </svg>
+        <h3 id="confirmAceptModalLabel">¿Estás seguro de que desea aceptar la solicitud de este instructor?</h3>
+      </div>
+      <div class="modal-footer">
+        <div class="w-100">
+          <div class="row">
+            <div class="col">
+              <button type="button" class="btn btn-secondary w-100 " data-bs-dismiss="modal">Cancelar</button>
+            </div>
+            <div class="col">
+              <a id="aceptUserModalBtn" href="#" class="btn btn-success w-100">Aceptar</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal modal-blur fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog  modal-sm modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      <div class="modal-status bg-danger"></div>
+      <div class="modal-body text-center py-4">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon mb-2 text-danger icon-lg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 9v2m0 4v.01" />
+          <path d="M5 19h14a2 2 0 0 0 1.84 -2.75l-7.1 -12.25a2 2 0 0 0 -3.5 0l-7.1 12.25a2 2 0 0 0 1.75 2.75" />
+        </svg>
+        <h3 id="confirmDeleteModalLabel">¿Estás seguro de que deseas eliminar la solicitud de este instructor?</h3>
+        <div class="text-muted">Esta acción no se puede deshacer.</div>
+      </div>
+      <div class="modal-footer">
+        <div class="w-100">
+          <div class="row">
+            <div class="col">
+              <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+            <div class="col">
+              <a id="deleteUserModalBtn" href="#" class="btn btn-danger w-100">Eliminar</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Obtener todos los enlaces de eliminación
+  var deleteUserBtns = document.querySelectorAll('.btn-outline-danger');
+  var aceptUserBtns = document.querySelectorAll('.btn-outline-info');
+
+  
+  aceptUserBtns.forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+
+      // Obtener el identificador de solicitud del atributo data-solicitudid
+      var solicitudId = btn.dataset.solicitudid;
+
+      // Obtener el argumento del atributo data-argumento
+      var argumento = btn.dataset.argumento;
+
+      // Generar la URL de eliminación con el identificador de solicitud y el argumento
+      var aceptUrl = '/usuario/solicitud/' + solicitudId + '/' + argumento + '/';
+
+      // Actualizar el atributo href del enlace de eliminación del modal
+      var aceptUserModalBtn = document.getElementById('aceptUserModalBtn');
+      aceptUserModalBtn.setAttribute('href', aceptUrl);
+
+      // Abrir el modal de confirmación
+      var confirmAceptModal = new bootstrap.Modal(document.getElementById('confirmAceptModal'));
+      confirmAceptModal.show();
+    });
+  });
+
+  deleteUserBtns.forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+
+      // Obtener el identificador de solicitud del atributo data-solicitudid
+      var solicitudId = btn.dataset.solicitudid;
+
+      // Obtener el argumento del atributo data-argumento
+      var argumento = btn.dataset.argumento;
+
+      // Generar la URL de eliminación con el identificador de solicitud y el argumento
+      var deleteUrl = '/usuario/solicitud/' + solicitudId + '/' + argumento + '/';
+
+      // Actualizar el atributo href del enlace de eliminación del modal
+      var deleteUserModalBtn = document.getElementById('deleteUserModalBtn');
+      deleteUserModalBtn.setAttribute('href', deleteUrl);
+
+      // Abrir el modal de confirmación
+      var confirmDeleteModal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
+      confirmDeleteModal.show();
+    });
+  });
+</script>

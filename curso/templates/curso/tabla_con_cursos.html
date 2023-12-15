@@ -1,0 +1,44 @@
+{% extends 'base.html' %} 
+{%load static%}
+{% block title %} Avance de estudiantes {% endblock title %}
+
+{%block contenido%}
+
+<div class="card p-0">
+  <div class="table-responsive">
+    <table class="table table-vcenter card-table w-100">
+      <thead>
+        <tr>
+            <th class="col-8">Nombre del Curso</th>
+            <th class="col-2">Número de Alumnos</th>
+            <th class="col-2 w-1"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for curso, estudiante in pagination %}
+        <tr>
+          <td>
+            {{curso}}
+          </td>
+          <td>{{estudiante}}</td>
+          <td>
+            <a href="{% url 'curso:mostrar_avance_estudiante' curso.nombre %}" class="btn btn-outline-info w-100">
+            Ver progresos
+            </a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td>
+            No hay cursos registrados.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock contenido%}
+
+{% block pagination %}  {% include 'paginacion.html' %} {% endblock pagination %}

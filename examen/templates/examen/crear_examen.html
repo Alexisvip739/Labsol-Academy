@@ -1,0 +1,128 @@
+{% extends 'base.html' %} 
+{% load static %}
+
+{% block title %} Detalles del examen {% endblock title %}
+{% block botones %} 
+<span class="d-none d-sm-inline">
+  <a href="{% url 'examen:calificacion_examen' examen.id %}" class="btn btn-outline-primary btn-pill d-none d-sm-inline-block" >
+    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-notebook" width="28" height="28" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M6 4h11a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-11a1 1 0 0 1 -1 -1v-14a1 1 0 0 1 1 -1m3 0v18"></path>
+        <path d="M13 8l2 0"></path>
+        <path d="M13 12l2 0"></path>
+    </svg>
+    Ver calificaciones
+  </a>
+</span>
+{% endblock botones %}
+
+{% block contenido %}
+{% include 'message.html' %}
+<div class="col-md-6 col-lg-4">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Datos del examen</h3>
+        </div>
+        <div class="card-body">
+            <div class="mb-3">
+              <label class="form-label">Nombre del examen:</label>
+              <label class="form-control"> {{ examen.nombre }} </label>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Descripción:</label>
+              <label class="form-control" style="text-align: justify;"> {{ examen.descripcion }} </label>
+            </div>
+        </div>
+        {% if request.user.user_type == 'instructor' %}
+        <div class="card-footer">
+            <a class="btn btn-outline-primary btn-pill w-100" data-bs-toggle="modal" data-bs-target="#modal-pregunta">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-rounded-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                   <path d="M9 12h6"></path>
+                   <path d="M12 9v6"></path>
+                   <path d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z"></path>
+                </svg>
+                Agregar pregunta
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="col-md-12 col-lg-8">
+    <div class="card ">
+        <div class="card-header">
+            <h3 class="card-title">Preguntas existentes del examen</h3>
+        </div>
+        <div class="card-body">
+            <div class=" table-responsive">
+                <table class="table table-vcenter card-table">
+                    <tbody>
+                    {% if preguntas %}
+                        {% for pregunta in preguntas %}
+                            <tr>
+                                <td> 
+                                    <label class="row">
+                                      <span class="col">
+                                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-player-track-next-filled" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                          <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                          <path d="M2 5v14c0 .86 1.012 1.318 1.659 .753l8 -7a1 1 0 0 0 0 -1.506l-8 -7c-.647 -.565 -1.659 -.106 -1.659 .753z" stroke-width="0" fill="currentColor"></path>
+                                          <path d="M13 5v14c0 .86 1.012 1.318 1.659 .753l8 -7a1 1 0 0 0 0 -1.506l-8 -7c-.647 -.565 -1.659 -.106 -1.659 .753z" stroke-width="0" fill="currentColor"></path>
+                                        </svg>
+                                      {{pregunta.texto}}</span>
+                                      {% if request.user.user_type == 'instructor' %}
+                                      <span class="col-auto">
+                                        <a href="{% url 'examen:editar_pregunta' pregunta.id  %}" class="bg-azure-lt" >
+                                          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-file-broken" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                             <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
+                                             <path d="M5 7v-2a2 2 0 0 1 2 -2h7l5 5v2"></path>
+                                             <path d="M19 19a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2"></path>
+                                             <path d="M5 16h.01"></path>
+                                             <path d="M5 13h.01"></path>
+                                             <path d="M5 10h.01"></path>
+                                             <path d="M19 13h.01"></path>
+                                             <path d="M19 16h.01"></path>
+                                          </svg> Editar
+                                        </a>
+                                      </span>
+                                      <span class="col-auto">
+                                        <a class="bg-red-lt" data-bs-toggle="modal" data-bs-target="#confirmDeletePregunta" data-preguntaid="{{ pregunta.id }}"> 
+                                          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                             <path d="M4 7h16"></path>
+                                             <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"></path>
+                                             <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
+                                             <path d="M10 12l4 4m0 -4l-4 4"></path>
+                                          </svg> Borrar 
+                                        </a>
+                                      </span>
+                                    </label>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% else %} 
+                        <tr>
+                            <td class="w-1">No hay preguntas registradas por el momento</td>
+                        </tr>
+                    {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="d-flex">
+           <a href="{% url 'curso:ver_curso' examen.curso.id %}" class="btn btn-link ms-auto">Regresar</a>
+        </div>
+        </div>
+    </div>
+</div>
+
+{% endblock contenido %}
+
+
+{% block js %} 
+{% include 'examen/modal-preguntas.html' %}
+{% include 'examen/modal_eliminar_pregunta.html' %}
+{% endblock js %}

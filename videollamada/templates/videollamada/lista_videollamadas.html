@@ -1,0 +1,86 @@
+{% extends 'base.html' %} 
+{% load static %}
+
+{% block title %} Listado de conferencias {% endblock title %}
+{% block botones %} 
+<span class="d-none d-sm-inline">
+  <a class="btn btn-outline-primary btn-pill w-100" data-bs-toggle="modal" data-bs-target="#videollamada">
+    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-rounded-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+       <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+       <path d="M9 12h6"></path>
+       <path d="M12 9v6"></path>
+       <path d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z"></path>
+    </svg>
+    Crear conferencia
+  </a>
+</span>  
+
+{% endblock botones %}
+
+{% block contenido %}
+{% include 'message.html' %}
+<div class="card p-0">
+    <div class="table-responsive">
+        <table class="table table-vcenter card-table">
+            <thead>
+                <tr>
+                    <th>Título de videollamada</th>
+                    <th>Fecha de realización</th>
+                    <th>Video de reunión</th>
+                    <th class="w-1"></th>
+                    <th class="w-1"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for videollamada in pagination %}
+                <tr>
+                    <td class="text-muted">{{ videollamada.titulo }}</td>
+                    <td> {{videollamada.fecha_reunion }} a las {{videollamada.hora }} </td>
+                    {% if videollamada.video %} 
+                        <td>
+                            <a class="btn btn-outline-primary btn-pill w-100" href="{% url 'videollamada:detalle_video' videollamada.id  %}" > Ver detalles </a>
+                        </td>
+                    {% else %}
+                        <td >
+                            <a class="btn btn-outline-primary btn-pill w-100" data-bs-toggle="modal" data-bs-target="#subir_video" onclick="setVideollamadaId('{{ videollamada.id }}')"> Subir video</a>
+                        </td>
+                    {% endif %}
+                </tr>
+                {% empty %}
+                <tr>
+                    <td  colspan="5">No hay reuniones realizadas.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock contenido %}
+
+
+{% block pagination %}  {% include 'paginacion.html' %} {% endblock pagination %}
+
+{% block js %} 
+{% include 'videollamada/modal_videollamada.html' %}
+
+{% include 'videollamada/modal_subir_video.html' %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function setVideollamadaId(videollamadaId) {
+        document.getElementById('videollamada_llave').value = videollamadaId;
+    }
+
+    $(document).ready(function() { 
+        $('#btnFreeze').click(function() {
+            $('#block-layer').show();
+            $('#bloqueo').css('display', 'block');
+            $('#spinner').show();
+            $('body *').css('pointer-events', 'none');
+        });
+    });
+</script>
+
+
+
+{% endblock js %}

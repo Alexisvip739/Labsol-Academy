@@ -1,0 +1,73 @@
+{% extends 'base.html' %} 
+{% load static %}
+
+{% block title %} Editar datos de usuario {% endblock title %}
+{% block contenido %}
+{% include 'message.html' %}
+<div class="col-md-12" >
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Modifique los datos necesarios:</h3>
+    </div>
+    <div class="card-body">
+      <form method="POST">
+        {% csrf_token %}
+
+           <div class="row">
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label">Nombre/s:</label>
+                {{ forms.first_name }}
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label">Apellido/s:</label>
+                {{ forms.last_name }}
+              </div>
+            </div>
+          </div>
+          {% if forms.user_type.value == 'estudiante' or forms.user_type.value == 'instructor' %}
+          <div class="mb-3">
+            <label class="form-label">Profesión:</label>
+            {{ forms.profession }}
+          </div>
+          <input type="hidden" name="user_type" value="{{ forms.user_type.value }}">
+          {% else %}
+          <input type="hidden" name="user_type" value="{{ forms.user_type.value }}">
+          {% endif %}
+
+          <div class="mb-3">
+            <label class="form-label">Correo electrónico:</label>
+            {{ forms.email }}
+          </div>
+
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label">Usuario</label>
+                {{ forms.username }}
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label">Contraseña</label>
+                {{ forms.password }}
+                <span>Ingrese la misma contraseña en caso de no modificarla</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-footer">
+            <div class="card-footer text-end">
+                  <div class="d-flex">
+                    <a href="javascript:history.back()" class="btn btn-link">Regresar</a>
+                    <button type="submit" class="btn btn-primary ms-auto">Guardar</button>
+                  </div>
+                </div>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock contenido %}

@@ -1,0 +1,43 @@
+{% extends 'base.html' %} 
+{% load static %}
+
+{% block title %} Notificaciones del curso: {{ curso.nombre }} {% endblock title %}
+
+{% block contenido %}
+<div class="card p-0">
+    <div class="table-responsive">
+        <table class="table table-vcenter card-table">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Asunto</th>
+                    <th>Descripción</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for notificacion in pagination %}
+                <tr>
+                    <td class="text-muted">{{ notificacion.fecha_creacion }}</td>
+                    <td> {{ notificacion.asunto }} </td>
+                    <td> {{ notificacion.descripcion }} </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td>
+                        No hay notificaciones.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock contenido %}
+
+
+{% block pagination %}  {% include 'paginacion.html' %} {% endblock pagination %}
+
+{% block js %} 
+
+{% endblock js %}

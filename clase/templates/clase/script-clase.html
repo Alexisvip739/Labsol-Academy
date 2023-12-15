@@ -1,0 +1,57 @@
+<script>
+    document.getElementById("form-clase").addEventListener("submit", function(event) {
+    event.preventDefault();
+    var formData = new FormData(event.target);
+    fetch("{% url 'clase:crear_clase' %}", {
+      method: "POST",
+      body: formData
+    })
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(data) {
+      if (data.success) {
+        document.getElementById("modal-clase").hidden = true;
+        document.getElementById("form-clase").reset();
+        location.reload()
+      } else {
+        // Mostramos errores relacionados con la compresión de video
+        if(data.error){ // Hay un error de comprensión de video.
+          document.getElementById("div_error_video_comp").hidden = false;
+          document.getElementById("error_video_comp").textContent = data.error
+        }
+        
+        for (var field in data.errors) {
+          var error = data.errors[field];
+          var input = document.getElementById('id_'+field);
+          input.classList.add("error");
+          input.nextSibling.textContent = error;
+        }
+      }
+    });
+  });
+  </script>
+
+  <script>
+  // Obtener todos los enlaces de eliminación
+  var deleteUserBtns = document.querySelectorAll('.bg-red-lt');
+
+  // Declarar la variable confirmDeleteModal fuera del evento click del botón "Eliminar"
+
+  // Iterar sobre cada enlace de eliminación y asignar el evento de clic
+  deleteUserBtns.forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+
+      // Obtener el identificador de usuario del atributo data-userid
+      var userId = btn.getAttribute('data-userid');
+
+      // Generar la URL de eliminación con el identificador de usuario
+      var deleteUrl = '/clase/eliminar/' + userId + '/';
+
+      // Actualizar el atributo href del enlace de eliminación del modal
+      var deleteUserModalBtn = document.getElementById('deleteUserBtn');
+      deleteUserModalBtn.setAttribute('href', deleteUrl);
+    });
+  });
+</script>

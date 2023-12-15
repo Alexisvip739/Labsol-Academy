@@ -1,0 +1,124 @@
+<script>
+  // Función para mostrar los errores cerca de los campos correspondientes
+function displayFieldErrors(errors) {
+  for (var field in errors) {
+    var fieldErrors = errors[field];
+    var inputField = document.querySelector('#id_' + field);
+    var fieldErrorContainer = document.createElement('div');
+    fieldErrorContainer.classList.add('text-danger');
+    fieldErrorContainer.textContent = fieldErrors[0];
+    inputField.parentNode.insertBefore(fieldErrorContainer, inputField.nextSibling);
+  }
+}
+
+
+// Manejar la respuesta JSON y mostrar los errores en el modal o el mensaje de confirmación
+function handleFormResponse(response) {
+  if (response.success === false) {
+    for (var field in response.errors) {
+      var errorMessages = response.errors[field];
+      displayFieldErrors({[field]: errorMessages}); // Mostrar errores cerca de los campos correspondientes
+    }
+  } else if (response.success === true) {
+    var mensajeExitoso = document.getElementById('mensajeExitoso');
+mensajeExitoso.textContent = response.message;
+
+// Cerrar el modal actual
+var modalActual = document.getElementById('registro');
+var modalActualBS = bootstrap.Modal.getInstance(modalActual);
+modalActualBS.hide();
+
+// Mostrar el modal de confirmación de registro exitoso
+var modalExitoso = document.getElementById('modalExitoso'); // Corrección aquí
+var modalExitosoBS = new bootstrap.Modal(modalExitoso);
+modalExitosoBS.show();
+limpiarFormulario();
+
+  }
+}
+
+
+// Manejar el envío del formulario con AJAX
+document.querySelector('#registro-form').addEventListener('submit', function (event) {
+  event.preventDefault();
+  var form = event.target;
+  var formData = new FormData(form);
+
+  // Limpiar los mensajes de error antes de enviar el formulario
+  var errorMessages = form.querySelectorAll('.text-danger');
+  errorMessages.forEach(function (errorMessage) {
+    errorMessage.parentNode.removeChild(errorMessage);
+  });
+
+  fetch(form.action, {
+    method: 'POST',
+    body: formData,
+  })
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      handleFormResponse(data);
+    });
+});
+
+function limpiarFormulario() {
+  // Obtener una referencia al formulario
+  var formulario = document.getElementById('registro-form');
+
+  // Restablecer los valores de los campos a su estado inicial
+  formulario.reset();
+}
+</script>
+
+<script>
+  function displayFieldErrors(errors) {
+  for (var field in errors) {
+    var fieldErrors = errors[field];
+    var inputField = document.querySelector('#id_' + field);
+    var fieldErrorContainer = document.createElement('div');
+    fieldErrorContainer.classList.add('text-danger');
+    fieldErrorContainer.textContent = fieldErrors[0];
+    inputField.parentNode.insertBefore(fieldErrorContainer, inputField.nextSibling);
+  }
+}
+
+function handleFormErrors(response) {
+  if (response.success === false) {
+    var errorContainer = document.getElementById('error-container');
+    errorContainer.innerHTML = '<div class="alert alert-danger">' + response.errors[0] + '</div>';
+    displayFieldErrors(response.errors);
+  } else {
+    // Obtener la URL de redirección desde el objeto JSON de la respuesta
+    var redirectUrl = response.redirectUrl;
+    if (redirectUrl) {
+      window.location.href = window.location.origin + '/' +  redirectUrl;
+    }
+  }
+}
+
+document.querySelector('#login-form').addEventListener('submit', function(event) {
+  event.preventDefault();
+  var form = event.target;
+  var formData = new FormData(form);
+
+  var errorMessages = form.querySelectorAll('.text-danger');
+  errorMessages.forEach(function(errorMessage) {
+    errorMessage.parentNode.removeChild(errorMessage);
+  });
+
+  fetch(form.action, {
+    method: 'POST',
+    body: formData,
+  })
+  .then(function(response) {
+    return response.json();
+  })
+  .then(function(data) {
+    handleFormErrors(data);
+  });
+});
+
+</script>
+
+

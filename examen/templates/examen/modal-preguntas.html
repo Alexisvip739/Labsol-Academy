@@ -1,0 +1,73 @@
+<div class="modal modal-blur fade" id="modal-pregunta" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Agregar pregunta al examen</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form method="post"  action="{% url 'examen:crear_pregunta' %}" id="pregunta-form" onsubmit="return validarFormulario()">
+        {% csrf_token %}
+        <div class="modal-body">
+            <div id="error-container"></div>
+                <div class="mb-3">
+                    <label for="pregunta" class="form-label">Crear una pregunta</label>
+                    <input type="text" class="form-control" id="pregunta" placeholder="Ingresa la pregunta" name="pregunta" required value="{{ pregunta }}">
+                    <input type="hidden" name="examen" id='examen' value="{{examen.id}}">
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label for="respuesta1" class="form-label">Respuesta número 1:</label>
+                            <input type="text" class="form-control" id="respuesta1" placeholder="Ingresa la respuesta 1" name="respuesta1" required>
+                            <small class="form-hint">
+                                <input type="checkbox" name="respuesta1-es_correcta" > Es correcta
+                            </small>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mbf-3">
+                            <label for="respuesta2" class="form-label">Respuesta número 2:</label>
+                            <input type="text" class="form-control" id="respuesta2" placeholder="Ingresa la respuesta 2" name="respuesta2" required>
+                            <small class="form-hint">
+                                <input type="checkbox" name="respuesta2-es_correcta" > Es correcta
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label for="respuesta1" class="form-label">Respuesta número 3:</label>
+                            <input type="text" class="form-control" id="respuesta3" placeholder="Ingresa la respuesta 3" name="respuesta3" required>
+                            <small class="form-hint">
+                                <input type="checkbox" name="respuesta3-es_correcta" > Es correcta
+                            </small>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label for="respuesta2" class="form-label">Respuesta número 4:</label>
+                            <input type="text" class="form-control" id="respuesta4" placeholder="Ingresa la respuesta 4" name="respuesta4" required>
+                            <small class="form-hint">
+                                <input type="checkbox" name="respuesta4-es_correcta" > Es correcta
+                            </small>
+                        </div>
+                    </div>
+                </div>
+          </div>
+        <div class="modal-footer">
+          <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal" >Cancelar</a>
+          <button class="btn btn-primary ms-auto" type="submit">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+              <line x1="12" y1="5" x2="12" y2="19" />
+              <line x1="5" y1="12" x2="19" y2="12" />
+            </svg>
+            Guardar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% include 'examen/script-pregunta.html' %}

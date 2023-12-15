@@ -1,0 +1,168 @@
+<!doctype html>
+{%load static%}
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>Labsol Academy</title>
+    <!-- CSS files -->
+    <link href="{% static 'css/tabler.min.css'  %}" rel="stylesheet"/>
+    <link href="{% static 'css/busquedas.css'  %}" rel="stylesheet"/>
+
+    <!-- Estilos del Spinner que se genera al crear una clase  -->
+    <link rel="stylesheet" href="{% static 'css/spinner.css' %}">
+  </head>
+  <body >
+    <div class="page">
+      <aside class="navbar navbar-vertical navbar-expand-lg navbar-dark">
+        
+        <div class="container-fluid">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <h1 class="navbar-brand navbar-brand-autodark">
+            <div class="container">
+              <a href="#" class="d-none d-md-block"> <!-- El elemento se ocultará en pantallas menores a 'md' -->
+                  <img src="{% static 'img/Logos Labsol 2023-02.png' %}" class="navbar-brand-image" style="width: 250px; height: 66px; background-color: white; object-fit: cover;">
+              </a>
+          </div>
+          
+          </h1>
+          <div class="navbar-nav flex-row d-lg-none">
+            <div class="nav-item dropdown">
+              <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
+                <span class="avatar avatar-sm" style="background-image: url('{{request.user.profile_picture.url}}')"></span>
+                <div class="d-none d-xl-block ps-2">
+                  <div>{{request.user.first_name}} {% if request.user.is_superuser%} Super-administrador {% endif %}</div>
+                  <div class="mt-1 small text-muted">{{request.user.user_type}} {% if request.user.is_superuser%} Super-admin {% endif %}</div>
+                </div>
+              </a>
+              <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                {% if request.user.user_type == 'admin' or request.user.user_type == 'instructor' %}
+                  <a href="{% url 'usuario:perfil' %}" class="dropdown-item">Ver perfil</a>
+                  <div class="dropdown-divider"></div>
+                {% endif %}
+                <a href="{% url 'usuario:cerrar_sesion' %}" class="dropdown-item">Cerrar sesión</a>
+              </div>
+            </div>
+          </div>
+          <div class="collapse navbar-collapse w-100" id="navbar-menu">
+            <ul class="navbar-nav pt-lg-3">
+              {% if request.user.is_superuser %}
+                {% include 'opciones_superadmin.html' %}
+              {% elif request.user.user_type == 'admin' %}
+                {% include 'opciones_admin.html' %}
+              {% elif request.user.user_type == 'instructor' %}
+                {% include 'opciones_instructor.html' %}
+              {% endif %}
+            </ul>
+          </div>
+        </div>
+      </aside>
+      <header class="navbar navbar-expand-md navbar-light d-none d-lg-flex d-print-none">
+        <div class="container-xl">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3"></h1>
+          <div class="navbar-nav flex-row order-md-last">
+            <div class="nav-item dropdown">
+              <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
+                <span class="avatar avatar-sm" style="background-image: url('{{request.user.profile_picture.url}}')"></span>
+                <div class="d-none d-xl-block ps-2">
+                  <div>{{request.user.first_name}} {% if request.user.is_superuser%} Super-administrador {% endif %}</div>
+                  <div class="mt-1 small text-muted">{{request.user.user_type}} {% if request.user.is_superuser%} Super-admin {% endif %}</div>
+                </div>
+              </a>
+              <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                {% if request.user.user_type == 'admin' or request.user.user_type == 'instructor' %}
+                  <a href="{% url 'usuario:perfil' %}" class="dropdown-item">Ver perfil</a>
+                  <div class="dropdown-divider"></div>
+                {% endif %}
+                <a href="{% url 'usuario:cerrar_sesion' %}" class="dropdown-item">Cerrar sesión</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+      <div class="page-wrapper">
+        <div class="container-xl">
+          <!-- Page title -->
+          <div class="page-header d-print-none">
+            <div class="row g-2 align-items-center">
+              <div class="col">
+                <!-- Page pre-title -->
+                <div class="page-pretitle">
+                  {% block pretitle %} {% endblock pretitle %}
+                </div>
+                <h2 class="page-title">
+                  {% block title %} {% endblock title %}
+                </h2>
+              </div>
+              <!-- Page title actions -->
+              <div class="col-12 col-md-auto ms-auto d-print-none">
+                <div class="btn-list">
+                  {% block botones %} {% endblock botones %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="page-body">
+          <div class="container-xl">
+            <div class="row row-deck row-cards">
+              {% block contenido %} {% endblock contenido %}
+            </div>
+          </div>
+        </div>
+        <footer class="footer footer-transparent d-print-none">
+          {% block pagination %} {% endblock pagination %}
+          <div class="container-xl">
+            <div class="row text-center align-items-center flex-row-reverse">
+              <div class="col-lg-auto ms-lg-auto">
+                <ul class="list-inline list-inline-dots mb-0">
+                  <li class="list-inline-item">
+                    <a href="">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-facebook" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                         <path d="M7 10v4h3v7h4v-7h3l1 -4h-4v-2a1 1 0 0 1 1 -1h3v-4h-3a5 5 0 0 0 -5 5v2h-3"></path>
+                      </svg>
+                    </a>
+                  </li>
+                  <li class="list-inline-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                      <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c0 -.249 1.51 -2.772 1.818 -4.013z"></path>
+                    </svg>
+                  </li>
+                  <li class="list-inline-item">
+                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-app-window" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M3 5m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z"></path>
+                        <path d="M6 8h.01"></path>
+                        <path d="M9 8h.01"></path>
+                      </svg>
+                  </li>
+                </ul>
+              </div>
+              <div class="col-12 col-lg-auto mt-3 mt-lg-0">
+                <ul class="list-inline list-inline-dots mb-0">
+                  <li class="list-inline-item">
+                    Laboratorio de Software Libre &copy; 2023
+                    Todos los derechos reservados.
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+    {% block js %} 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iK7l5iS9omQjs4uPLF5ceMSR66nHD7L9OpFAYQOp6mymP64pVy" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-eKpEn3Z3aOQVMpG8r+3doD4W1Nw5okAEl7WlC/7A2oRj5/jqDLOdM6D5OJUT8ii1" crossorigin="anonymous"></script>
+    {% endblock js %}
+    <script src="{% static 'js/tabler.min.js' %}" defer></script>
+  </body>
+</html>

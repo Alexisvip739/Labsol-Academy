@@ -1,0 +1,118 @@
+{% extends 'base.html' %} 
+{% load static %}
+
+{% block title %} Detalles de la conferencia {% endblock title %}
+
+
+{% block contenido %}
+ {% include 'message.html' %}
+<div class="col-lg-8">
+  <div class="card card-lg">
+    <video controls style="width: auto; height: 550px; background-color:  #181818; ">
+    <source src="{{videollamada.video.url}}" type="video/mp4">
+  </video>
+  </div>
+</div>
+<div class="col-lg-4">
+  <div class="card">
+    <div class="card-body">
+      <div class="d-flex align-items-center mb-3">
+        <div class="me-3">
+          <svg xmlns="http://www.w3.org/2000/svg" class="text-blue icon icon-tabler icon-tabler-presentation" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <path d="M3 4l18 0"></path>
+            <path d="M4 4v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-10"></path>
+            <path d="M12 16l0 4"></path>
+            <path d="M9 20l6 0"></path>
+            <path d="M8 12l3 -3l2 2l3 -3"></path>
+          </svg>
+        </div>
+        <div>
+          <small class="text-muted">Esta videollamada lleva por título:</small>
+          <h3 class="lh-1">{{videollamada.titulo}}</h3>
+        </div>
+      </div>
+      <div class="text-muted mb-3" style="text-align: justify;">
+        {{ videollamada.descripcion }}
+      </div>
+        <h4>Datos de realización </h4>
+        <ul class="list-unstyled space-y-1">
+          <li>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar text-blue" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+              <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z"></path>
+              <path d="M16 3v4"></path>
+              <path d="M8 3v4"></path>
+              <path d="M4 11h16"></path>
+              <path d="M11 15h1"></path>
+              <path d="M12 15v3"></path>
+            </svg>
+            Fecha: {{ videollamada.fecha_reunion }}
+          </li>
+          <li>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock-hour-4 text-blue" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+              <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
+              <path d="M12 12l3 2"></path>
+              <path d="M12 7v5"></path>
+            </svg>
+            Hora: {{ videollamada.hora }}
+          </li>
+          <li style="text-align: justify;">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link text-blue" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+              <path d="M9 15l6 -6"></path>
+              <path d="M11 6l.463 -.536a5 5 0 0 1 7.071 7.072l-.534 .464"></path>
+              <path d="M13 18l-.397 .534a5.068 5.068 0 0 1 -7.127 0a4.972 4.972 0 0 1 0 -7.071l.524 -.463"></path>
+            </svg>
+            Enlace: {{ videollamada.enlace }}
+          </li>
+        </ul>
+        <h4>Impartido por: </h4>
+        <ul class="list-unstyled space-y-1">
+          <li>
+            <svg xmlns="http://www.w3.org/2000/svg" class="text-blue icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+              <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
+              <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
+            </svg>
+            {{videollamada.instructor}}
+          </li>
+        </ul>
+        {% if videollamada.archivo %}
+        <h4>Archivo PDF</h4>
+        <ul class="list-unstyled space-y-1">
+          <li>
+            <a class="d-block" href='{{videollamada.archivo.url}}'>
+              <center> 
+                <img src="{% static 'img/pdf.png' %}" width="100" height="80" >
+              </center>
+            </a><br>
+          </li>
+        </ul>
+        {% endif %}
+      </div>
+      <div class="d-flex card-footer">
+        <a class="btn btn-primary ms-auto" data-bs-toggle="modal" data-bs-target="#videollamada"> 
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+              <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
+              <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path>
+              <path d="M16 5l3 3"></path>
+            </svg>
+            Editar
+          </a>
+      </div>
+    </div>
+  </div>
+
+
+{% endblock contenido %}
+
+
+
+
+{% block js %} }
+{% include 'videollamada/modal_videollamada.html' %}
+
+{% endblock js %}

@@ -1,0 +1,127 @@
+{% extends 'base_externa.html' %} 
+{% load static %}
+
+
+{% block contenido %} 
+<div class="container-xxl py-5">
+  <div class="container">
+      <div class="row g-5">
+          <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
+              <div class="position-relative h-100">
+                  <img class="img-fluid position-absolute w-100 h-100" src="{{ curso.miniatura.url }}" alt="" style="object-fit: cover;">
+              </div>
+          </div>
+          <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
+              <h6 class="section-title bg-white text-start text-primary pe-3">Acerca del curso</h6>
+              <h1 class="mb-4">{{ curso.nombre }}</h1>
+              <p class="mb-4">{{curso.descripcion}}</p>
+              <p class="mb-4">Categorías:</p>
+              <div class="row gy-2 gx-4 mb-4">
+                {% for etiqueta in etiquetas %}
+                  <div class="col-sm-6">
+                    <p class="mb-0">
+                        <i class="fa fa-arrow-right text-primary me-2"></i>
+                        {{ etiqueta.nombre }}
+                    </p>
+                  </div>
+                {% endfor %}
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="mb-3">
+        <label class="fw-bold fs-4 mb-4"> Contenido del curso</label>
+        <ul class="list-unstyled d-flex mb-1">
+          <li class="text-dark me-4 ms-3 m-0" >
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-badge-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+              <path d="M13 7h-6l4 5l-4 5h6l4 -5z"></path>
+            </svg>
+            Clases: {{ num_clases }}
+          </li>
+          <li class="text-dark" >
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-badge-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+              <path d="M13 7h-6l4 5l-4 5h6l4 -5z"></path>
+            </svg>
+            Examen: {{ num_examen }}
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="mb-3">
+        <label class="fw-bold fs-4 mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pdf" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+             <path d="M10 8v8h2a2 2 0 0 0 2 -2v-4a2 2 0 0 0 -2 -2h-2z"></path>
+             <path d="M3 12h2a2 2 0 1 0 0 -4h-2v8"></path>
+             <path d="M17 12h3"></path>
+             <path d="M21 8h-4v8"></path>
+          </svg>
+          Archivo PDF:
+        </label>
+        {% if  curso.archivo_pdf %}
+        <a class="d-block" href='{{curso.archivo_pdf.url}}'>
+          <center> 
+            <img src="{% static 'img/pdf.png' %}" width="100" height="80" >
+          </center>
+        </a><br>
+        {% else %}
+        <label class="d-block"> No hay archivos pdf disponibles para este curso</a>
+        {% endif %}  
+      </div>
+    </div>
+  </div>
+  <table class="table table-bordered table-bordered-all" style="background-color: #D4E4F5; border-radius: 10px; border-color: white;">
+    <tbody>
+      {% for clase in clases %}
+        <tr>
+            <td class="px-4 fw-bold"> 
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-player-track-next-filled" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M2 5v14c0 .86 1.012 1.318 1.659 .753l8 -7a1 1 0 0 0 0 -1.506l-8 -7c-.647 -.565 -1.659 -.106 -1.659 .753z" stroke-width="0" fill="currentColor"></path>
+                <path d="M13 5v14c0 .86 1.012 1.318 1.659 .753l8 -7a1 1 0 0 0 0 -1.506l-8 -7c-.647 -.565 -1.659 -.106 -1.659 .753z" stroke-width="0" fill="currentColor"></path>
+              </svg>
+             {{ clase.titulo }}
+            </td>
+        </tr>
+      {% endfor %}                    
+    </tbody>
+  </table>
+
+  <div class="card">
+    <div class="card-body">
+      <div class="border p-4">
+        <h2 class="fw-bold fs-4 pb-2">Acerca del instructor</h2>
+        <h3 class="fw-bold fs-5 pb-2" style="color: #5564eb;">{{curso.instructor.first_name}} {{ curso.instructor.last_name }}</h3>
+        <div class="row mb-3">
+          <div class=" col-md-4 col-lg-2 mb-2">
+            <div class="image-container ">
+              <img class="rounded-circle img-fluid" src="{{ curso.instructor.profile_picture.url }}" height="140px" width="140px" alt="Foto de perfil">
+            </div>
+          </div>
+          <div class="col-md-8 col-lg-10">
+            <ul class="list-unstyled">
+              <li>- Ha creado {{ cursos_totales_instructor }} cursos</li>
+              <li>- Se unió el {{ instructor_fecha_de_inscripcion }}</li>
+            </ul>
+          </div>
+        </div>
+        <p class="small"> 
+          {% if  curso.instructor.descripcion  %}
+            {{ curso.instructor.descripcion }}
+          {% else %}
+            Este instructor no ha agregado una descripción.
+          {% endif %}
+         </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock contenido %}

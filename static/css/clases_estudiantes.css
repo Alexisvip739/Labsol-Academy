@@ -1,0 +1,26 @@
+.contenedor{
+    width: 80%;
+    margin: auto;
+}
+.scrollable-list {
+    max-height: 400px; 
+    overflow-y: scroll;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+
+.scrollable-list::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+.scrollable-list::-webkit-scrollbar-thumb {
+    background-color: #949494;
+    border-radius: 10px;
+}
+  
+.scrollable-list::-webkit-scrollbar-track {
+    background-color: #dbdbdb;
+    border-radius: 10px;
+}
+

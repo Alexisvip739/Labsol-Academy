@@ -1,0 +1,112 @@
+{% extends 'base.html' %} 
+{% load static %}
+
+{% block title %} Listado de {{tipo_usuarios}} {% endblock title %}
+{% block botones %} 
+<span class="d-flex flex-wrap gap-3">
+  <span>
+  
+    <input id="buscador_usuario" type="text" data-usuario="{{tipo}}" class="form-control rounded-start" placeholder="Buscar usuario">
+
+    <div id="desplegar_info" style="display: none;"></div>
+  </span>
+<span>
+  <a class="btn btn-outline-primary btn-pill w-100" data-bs-toggle="modal" data-bs-target="#registro">
+    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-rounded-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+       <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+       <path d="M9 12h6"></path>
+       <path d="M12 9v6"></path>
+       <path d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z"></path>
+    </svg>
+    Agregar {{tipo_usuarios}}
+    
+  </a>
+</span>
+
+{% if tipo == 'instructor' %}
+  <span>
+    <a  href="{% url 'usuario:lista_solicitud' %}" class="btn btn-danger btn-pill " id='solicitud'>
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-device-desktop-check" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M12 16h-8a1 1 0 0 1 -1 -1v-10a1 1 0 0 1 1 -1h16a1 1 0 0 1 1 1v8"></path>
+        <path d="M15 19l2 2l4 -4"></path>
+        <path d="M7 20h4"></path>
+        <path d="M9 16v4"></path>
+      </svg>
+      Solicitudes ({{cantidad}})
+    </a>
+  </span>
+{% endif %}
+{% endblock botones %}
+
+{% block contenido %}
+{% include 'message.html' %}
+<div class="card p-0">
+    <div class="table-responsive">
+        <table class="table table-vcenter card-table">
+            <thead>
+                <tr>
+                    <th>Nombre de usuario</th>
+                    <th>Nombre</th>
+                    <th>Apellidos</th>
+                    {% if tipo_usuarios == 'estudiantes' or tipo == 'instructor' %}
+                    <th>Profesión</th>
+                    {% endif %}
+                    <th>Correo electrónico</th>
+                    <th class="w-1"></th>
+                    <th class="w-1"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in pagination %}
+                <tr>
+                    <td class="text-muted">{{ user.username }}</td>
+                    <td> {{user.first_name }} </td>
+                    <td>{{ user.last_name }}</td>
+                    {% if tipo_usuarios == 'estudiantes' or tipo_usuario == 'instructores' %}
+                    <td>{{ user.profession }}</td>
+                    {% endif %}
+                    <td>{{ user.email }}</td>
+                    <td><a href="{% url 'usuario:editar_usuario' user.id  %}" class="btn btn-outline-info w-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                       <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                       <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
+                       <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path>
+                       <path d="M16 5l3 3"></path>
+                    </svg>Editar</a> </td>
+                    <td>
+                      <a href="#" class="btn btn-outline-danger w-100" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-userid="{{ user.id }}">
+                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash-off" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                             <path d="M3 3l18 18"></path>
+                             <path d="M4 7h3m4 0h9"></path>
+                             <path d="M10 11l0 6"></path>
+                             <path d="M14 14l0 3"></path>
+                             <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l.077 -.923"></path>
+                             <path d="M18.384 14.373l.616 -7.373"></path>
+                             <path d="M9 5v-1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
+                          </svg>Eliminar
+                      </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td  colspan="5">No hay {{tipo_usuarios}} registrados.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock contenido %}
+
+
+{% block pagination %}  {% include 'paginacion.html' %} {% endblock pagination %}
+
+{% block js %} 
+{% include 'usuario/modal-registro.html' %}
+{% include 'usuario/modal_eliminar_usuario.html' %}
+{% include 'usuario/script.html' %}
+<script src="{% static 'js/buscador_de_usuarios.js' %}"></script>
+{% endblock js %}

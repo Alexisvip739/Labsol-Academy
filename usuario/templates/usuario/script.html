@@ -1,0 +1,72 @@
+<script>
+  // Obtener todos los enlaces de eliminación
+  var deleteUserBtns = document.querySelectorAll('.btn-outline-danger');
+
+  // Declarar la variable confirmDeleteModal fuera del evento click del botón "Eliminar"
+
+  // Iterar sobre cada enlace de eliminación y asignar el evento de clic
+  deleteUserBtns.forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+
+      // Obtener el identificador de usuario del atributo data-userid
+      var userId = btn.getAttribute('data-userid');
+
+      // Generar la URL de eliminación con el identificador de usuario
+      var deleteUrl = '/usuario/eliminar/' + userId + '/';
+
+      // Actualizar el atributo href del enlace de eliminación del modal
+      var deleteUserModalBtn = document.getElementById('deleteUserBtn');
+      deleteUserModalBtn.setAttribute('href', deleteUrl);
+    });
+  });
+</script>
+
+<script>
+  function displayFieldErrors(errors) {
+    for (var field in errors) {
+      var fieldErrors = errors[field];
+      var inputField = document.querySelector('#id_' + field);
+      var fieldErrorContainer = document.createElement('div');
+      fieldErrorContainer.classList.add('text-danger');
+      fieldErrorContainer.textContent = fieldErrors[0];
+      inputField.parentNode.insertBefore(fieldErrorContainer, inputField.nextSibling);
+    }
+  }
+
+function handleFormErrors(response) {
+  if (response.success === false) {
+    var errorContainer = document.getElementById('error-container');
+    displayFieldErrors(response.errors);
+  } else {
+    // Obtener la URL de redirección desde el objeto JSON de la respuesta
+    var redirectUrl = response.redirectUrl;
+    if (redirectUrl) {
+      window.location.href = redirectUrl;
+    }
+  }
+}
+
+document.querySelector('#registro-form').addEventListener('submit', function(event) {
+  event.preventDefault();
+  var form = event.target;
+  var formData = new FormData(form);
+
+  var errorMessages = form.querySelectorAll('.text-danger');
+  errorMessages.forEach(function(errorMessage) {
+    errorMessage.parentNode.removeChild(errorMessage);
+  });
+
+  fetch(form.action, {
+    method: 'POST',
+    body: formData,
+  })
+  .then(function(response) {
+    return response.json();
+  })
+  .then(function(data) {
+    handleFormErrors(data);
+  });
+});
+
+</script>

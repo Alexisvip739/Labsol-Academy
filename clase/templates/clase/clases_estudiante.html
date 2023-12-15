@@ -1,0 +1,321 @@
+{% extends 'base_externa.html' %} 
+{% load static %}
+
+{% block contenido %}
+
+{% if clase %}
+<div id="class-message" data-class="1" class="contenedor">
+    <div class="row">
+    	{% for clase_details in clase %}
+        <div class="col-lg-8 mt-4">
+            <article>
+	            <figure class="mb-4">
+					<video id="myVideo" data-id="{{clase_details.pk}}" data-curso="{{clase_details.curso.pk}}" controls autoplay style="background-color: gray; width: 100%;  display: block;">
+						<source src="{{clase_details.video.url}}" type="video/mp4">
+					</video>
+				</figure>
+				
+                <section class="mb-5">
+					<h1 class="fw-bolder mb-1" id="titulo_clase">{{ clase_details.titulo }}</h1>
+                    <div class="text-muted fst-italic mb-2"> {{ clase_details.curso }}, impartido por {{clase_details.curso.instructor}}</div>
+                    
+					<p class="fs-5 mb-4" style="text-align: justify;">{{ clase_details.descripcion }}</p>
+                </section>
+            </article>
+        </div>
+        <div class="col-lg-4 mt-4" >
+            <div class="card mb-4">
+                <div class="card-header">Archivo PDF</div>
+            	<div class="card-body" >
+					{% if clase_details.archivo_pdf %}
+					<a class="d-block text-primary"  href="{{clase_details.archivo_pdf.url}}">
+
+					<div style="display: flex; width: 60%; justify-content: center; align-items: center; margin: auto; background-color: #2F3659; border-radius: 10px;">
+                		
+									<svg height="40px" width="40px" version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" style="fill: white; margin-right: 10px;">
+										<style type="text/css">
+										  .st0{fill:#ffffff;}
+										</style>
+										<g>
+										  <path class="st0" d="M378.413,0H208.297h-13.182L185.8,9.314L57.02,138.102l-9.314,9.314v13.176v265.514
+											c0,47.36,38.528,85.895,85.896,85.895h244.811c47.353,0,85.881-38.535,85.881-85.895V85.896C464.294,38.528,425.766,0,378.413,0z
+											 M432.497,426.105c0,29.877-24.214,54.091-54.084,54.091H133.602c-29.884,0-54.098-24.214-54.098-54.091V160.591h83.716
+											c24.885,0,45.077-20.178,45.077-45.07V31.804h170.116c29.87,0,54.084,24.214,54.084,54.092V426.105z"/>
+										  <path class="st0" d="M171.947,252.785h-28.529c-5.432,0-8.686,3.533-8.686,8.825v73.754c0,6.388,4.204,10.599,10.041,10.599
+											c5.711,0,9.914-4.21,9.914-10.599v-22.406c0-0.545,0.279-0.817,0.824-0.817h16.436c20.095,0,32.188-12.226,32.188-29.612
+											C204.136,264.871,192.182,252.785,171.947,252.785z M170.719,294.888h-15.208c-0.545,0-0.824-0.272-0.824-0.81v-23.23
+											c0-0.545,0.279-0.816,0.824-0.816h15.208c8.42,0,13.447,5.027,13.447,12.498C184.167,290,179.139,294.888,170.719,294.888z"/>
+										  <path class="st0" d="M250.191,252.785h-21.868c-5.432,0-8.686,3.533-8.686,8.825v74.843c0,5.3,3.253,8.693,8.686,8.693h21.868
+											c19.69,0,31.923-6.249,36.81-21.324c1.76-5.3,2.723-11.681,2.723-24.857c0-13.175-0.964-19.557-2.723-24.856
+											C282.113,259.034,269.881,252.785,250.191,252.785z M267.856,316.896c-2.318,7.331-8.965,10.459-18.21,10.459h-9.23
+											c-0.545,0-0.824-0.272-0.824-0.816v-55.146c0-0.545,0.279-0.817,0.824-0.817h9.23c9.245,0,15.892,3.128,18.21,10.46
+											c0.95,3.128,1.62,8.56,1.62,17.93C269.476,308.336,268.805,313.768,267.856,316.896z"/>
+										  <path class="st0" d="M361.167,252.785h-44.812c-5.432,0-8.7,3.533-8.7,8.825v73.754c0,6.388,4.218,10.599,10.055,10.599
+											c5.697,0,9.914-4.21,9.914-10.599v-26.351c0-0.538,0.265-0.81,0.81-0.81h26.086c5.837,0,9.23-3.532,9.23-8.56
+											c0-5.028-3.393-8.553-9.23-8.553h-26.086c-0.545,0-0.81-0.272-0.81-0.817v-19.425c0-0.545,0.265-0.816,0.81-0.816h32.733
+											c5.572,0,9.245-3.666,9.245-8.553C370.411,256.45,366.738,252.785,361.167,252.785z"/>
+										</g>
+									  </svg>
+								
+								<p style="color: white; margin-top: 10px;">Descargar PDF</p>
+                		
+                	</div>
+				</a>
+
+					{% else %}
+            				 No se adjunto archivo pdf
+          				{% endif %}
+                  <form id="csrf-form">
+                    {% csrf_token %}
+                  </form>
+            
+                  <p style="display:none" id="id_usuario">{{request.user.id}}</p>
+            
+            	</div>
+            </div>
+        {% endfor %}
+            <div class="card mb-4">
+            	<div class="card-header" style="border-color: #BF463B; border: none;">
+            		<center>
+            			<a  style="color: #BF463B; text-align: center; ">
+            			LISTADO DE CLASES
+						 </a>
+						</center>
+            	</div>
+        	</div>
+			<div class=" scrollable-list  mb-3">
+				{% for clase_page in clase.paginator %}
+					{% for clase_detail in clase_page %}
+						<div class="card mb-4">
+							<div class="card-header">
+								<a  id="pagina_actual" href="?page={{ clase_page.number }}" class="{% if clase_page.number == clase.number %}text-success{% else %}text-primary{% endif %}" style="background-color: #2F3659; color: white;">
+								<div>
+									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play-circle-fill me-1" viewBox="0 0 16 16">
+									<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814l-3.5-2.5z"/>
+									</svg>
+									{% if clase_page.number == clase.number %}
+									Estás en la clase actual
+									{% else %}
+									{{ clase_page.number }} - {{ clase_detail }}
+									{% endif %}
+								</div>
+								</a>
+							</div>
+						</div>
+					{% endfor %}
+				{% endfor %}
+				{% if examen %}
+					<div class="card mb-4">
+						<div class="card-header">
+							<a href="{% url 'examen:realizar_examen' examen.id %}" class="text-primary" style="background-color: #2F3659; color: white;">
+							<div>
+								<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-file-description" width="28" height="28" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+									<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+									<path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
+									<path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"></path>
+									<path d="M9 17h6"></path>
+									<path d="M9 13h6"></path>
+								</svg>
+								Realizar examen
+							</div>
+							</a>
+						</div>
+					</div>
+				{% endif %}
+			</div>
+
+			<div class="d-flex gap-4">
+				{% if clase.has_previous %}
+            	<div class="card mb-4">
+                	<div class="card-header">
+                		<a href="?page={{ clase_page.number }}" style="color: #BF463B;">
+                			<div  >
+        						<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-big-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+								   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+								   <path d="M20 15h-8v3.586a1 1 0 0 1 -1.707 .707l-6.586 -6.586a1 1 0 0 1 0 -1.414l6.586 -6.586a1 1 0 0 1 1.707 .707v3.586h8a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1z"></path>
+								</svg>
+                			Ver clase previa
+      						</div>
+   						 </a>
+                	</div>
+            	</div>
+            {% endif %}
+            {% if clase.has_next %}
+            	<div class="card mb-4">
+                	<div class="card-header" >
+                		<a href="?page={{ clase.next_page_number }}" style="color: #BF463B;" >
+                			<div  >
+        						<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-big-right-lines" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+								   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+								   <path d="M12 9v-3.586a1 1 0 0 1 1.707 -.707l6.586 6.586a1 1 0 0 1 0 1.414l-6.586 6.586a1 1 0 0 1 -1.707 -.707v-3.586h-3v-6h3z"></path>
+								   <path d="M3 9v6"></path>
+								   <path d="M6 9v6"></path>
+								</svg>
+                			Ver siguiente clase
+      						</div>
+   						 </a>
+                	</div>
+            	</div>
+            {% endif %}
+			</div>
+        </div>
+    </div>
+</div>
+<div class="container mt-5">
+  <div id="columna-primaria" class="row">
+    <div id="contenedor-comentarios" class="col-lg-8 mb-5 card card-body" style="background-color: #2F3659;">
+      <div class="mb-4">
+        <div class="mb-4">
+          <h3 class="text-white">Comentarios</h3>
+        </div>
+        <div class="d-flex">
+          <div class="container">
+            <form  class="mb-4" method="POST" id="form-user">
+              {%csrf_token%} {{form.contenido}} {{form.id_autor}}
+              {{form.id_clase}} {{form.id_respuesta}}
+              <button type="submit" class="btn btn-sm mt-2" data-type="send" data-id="form-user" style="background-color: white; "> Comentar </button>
+              <button type="button" class="btn btn-danger btn-sm mt-2" data-type="cancel" data-id="form-user" > Cancelar </button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div id="lista-comentarios">
+        {% for comentario in comentarios reversed%}
+        <div class="d-flex mt-4">
+            <div class="flex-shrink-0"><img class="rounded-circle" src="{{ comentario.id_autor.profile_picture.url }}"  style="width: 50px; height: 50px;" /></div>
+            <div class="ms-3" id="comentario-info">
+                <div class="fw-bold text-white">{{ comentario.id_autor}}</div>
+                <div class="text-white"> {{comentario.contenido}} </div>
+                <br>
+                <button data-type="display-block" data-id="contenedor-respuesta-{{comentario.id}}" class="btn btn-sm" style="background-color: white; border: none;">
+              respuestas {{comentario.respuestas.count}}
+            	</button>
+            </div>
+        </div>     
+        <div id="contenedor-respuesta-{{comentario.id}}" class="mb-4" style="display: none">
+          {% for respuesta in comentario.respuestas.all%}
+          <div class="d-flex ms-5 mb-3">
+          	<div class="d-flex mt-4">
+          		<div class="flex-shrink-0">
+          			<img class="rounded-circle" src="{{ respuesta.id_autor.profile_picture.url }}" style="width: 50px; height: 50px;" />
+          		</div>
+                <div id="respuesta-info" class="ms-3">
+                    <div class="fw-bold text-white">{{respuesta.id_autor}}</div>
+                    <div class="text-white"> {{respuesta.contenido}} </div>
+                </div>
+            </div>
+          </div>
+          {% endfor %}
+          <div class="ms-5">
+            <form method="POST" id="form-{{comentario.id}}">
+              {% csrf_token %} 
+			  {{form.contenido}} 
+			  {{form.id_autor}}
+              {{form.id_clase}}
+              <input id="id_respuesta" name="id_respuesta" type="hidden" value="{{comentario.id}}" />
+              <button type="submit" class="btn btn-sm mt-2" data-type="send" data-id="form-{{comentario.id}}" style="background-color: white; ">Comentar </button>
+              <button type="button" class="btn btn-danger btn-sm mt-2" data-type="cancel" data-id="form-{{comentario.id}}" > Cancelar </button>
+            </form>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  <form id="csrf-form">
+    {% csrf_token %}
+  </form>
+</div>
+{% else %}
+<div id="class-message" data-class="0" class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
+	<div class="container text-center">
+		<div class="row justify-content-center">
+			<div class="col-lg-6">
+				<i class="bi bi-emoji-frown-fill display-1 text-primary"></i>
+				<h1 class="mb-4">No hay clases disponibles por el momento</h1>
+			</div>
+		</div>
+	</div>
+</div>
+{% endif %}
+{% endblock contenido %}
+
+
+{% block js_externo %}
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="{% static 'js/clase_comentarios.js' %}"></script>
+<script>
+async function fetchData(url, csrfToken) {
+		try {
+			const response = await axios.get(url, {
+				headers: {
+					'X-CSRFToken': csrfToken,
+					'Content-type': 'application/json',
+				},
+			});
+			return response.data;
+		} catch (error) {
+			console.error("Error fetching data:", error);
+			throw error;
+		}
+	}
+	async function postData(url, data, csrfToken) {
+		try {
+			const response = await axios.post(url, data, {
+				headers: {
+					'X-CSRFToken': csrfToken,
+					'Content-type': 'application/json',
+				},
+			});
+			return response.data;
+		} catch (error) {
+			console.error("Error:", error.response);
+			throw error;
+		}
+	}
+	
+	async function sendViewedClassData(data, csrfToken) {
+		try {
+			const response = await postData("/api/clases_vistas/", data, csrfToken);
+		} catch (error) {
+			console.error("Error sending viewed class data:", error);
+		}
+	}
+
+	async function DataApi() {
+
+		const csrfToken = document.querySelector('#csrf-form [name=csrfmiddlewaretoken]').value;
+		const video = document.getElementById("myVideo");
+		const id_user = {{request.user.id}};
+		const id_video = parseInt(video.dataset.id);
+		const id_curso = parseInt(video.dataset.curso);
+	
+		try {
+			video.addEventListener("ended", async () => {
+				try {
+					
+					const class_view = await fetchData('/api/clases_vistas/', csrfToken);
+					const view_exists = class_view.find(item => item.estudiante == id_user && item.clase == id_video);
+	
+					if (view_exists === undefined) {
+						const fechaActual = new Date();
+						const data = {
+							estudiante: id_user,
+							clase: id_video,
+							curso: id_curso,
+							fecha_ultima_visualizacion: fechaActual.toISOString()
+						};
+						await sendViewedClassData(data, csrfToken);
+					}
+				} catch (error) {
+					console.error("Error fetching data:", error);
+				}
+			});
+		} catch (error) {
+			console.error("Error:", error);
+		}
+	}
+
+	DataApi()
+</script>
+{% endblock js_externo %}

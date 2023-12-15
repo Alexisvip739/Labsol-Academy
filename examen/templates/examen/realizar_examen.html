@@ -1,0 +1,178 @@
+{% extends 'base_externa.html' %} 
+{% load static %}
+
+{% block title %} {{ clase.titulo }} {% endblock title %}
+
+{% block contenido %}
+<div class="container-xxl py-5">
+  <div class="container">
+    <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+      <h6 class="section-title bg-white text-center text-primary px-3">Examen</h6>
+      <h1 class="mb-5">{{examen.nombre}}</h1>
+    </div>
+    <div class="row g-4">
+      <div class="col-lg-12 wow fadeInUp" data-wow-delay="0.1s">
+          <h5>Descripción:</h5>
+          <p class="mb-4">{{examen.descripcion}}</p>
+          {% if not realizado %}
+          <p><strong> Número de preguntas: </strong> {{ total_preguntas }}</p>
+          {% else %}
+          <div class="alert alert-success"> Este examen ya lo has realizado anteriormente </div>
+          {% endif %}
+      </div>
+      <hr>
+      {% if not realizado %}
+        <div class="col-lg-12" >
+          {% if preguntas_respuestas %}
+            <form method="post" onsubmit="return validarFormulario()">
+              {% csrf_token %}
+              <ul>
+                <ol>
+                  {% for pregunta, respuesta in preguntas_respuestas %}
+                    <li>
+                      <div class="col-lg-12 wow fadeInUp" data-wow-delay="0.1s">
+                        <h5 id="{{pregunta.id}}">{{pregunta}}:</h5>
+                      </div>
+                      <div id="error-container"></div>
+                      <div class="row g-4">
+                        {% for respuestas in respuesta %}
+                          <div class="col-lg-3 col-sm-6" >
+                            <label class="form-check form-check-inline ">
+                              <input class="form-check-input" type="radio" name="respuesta-{{ pregunta.id }}" value="{{ respuestas.id }}">
+                              <span class="form-check-label">{{respuestas.texto}}</span>
+                            </label>
+                          </div>
+                        {% endfor %}
+                      </div>
+                    </li>
+                  {% endfor %}
+                </ol>
+              </ul>
+              <hr>
+              <button class="w-100 btn btn-outline-danger btn-pill" type="submit">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                  <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                  <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
+                  <path d="M9 17h6" /><path d="M9 13h6" />
+                </svg>  
+                Terminar Examen
+              </button>
+            </form>
+          {% else %}
+              {% include 'message.html' %}
+              <div class="justify-content-center">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="mb-3">
+                      <label class="form-label"> 
+                        <strong> 
+                          <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M9.615 20h-2.615a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8" /><path d="M14 19l2 2l4 -4" />
+                            <path d="M9 8h4" />
+                            <path d="M9 12h2" />
+                          </svg>
+                          Preguntas correctas: 
+                        </strong>
+                      </label>
+                      <label class="form-control">{{puntaje}} </label>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="mb-3">
+                      <label class="form-label"> 
+                        <strong> 
+                          <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                            <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" /><path d="M10 12l4 4m0 -4l-4 4" />
+                          </svg>
+                          Preguntas incorrectas: 
+                        </strong>
+                      </label>
+                      <label class="form-control">{{total_incorrecta}} </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="w-100">
+                  <label class="form-label">
+                    <strong>
+                      <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                        <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
+                        <path d="M11.8 16.817l-2.172 1.138a0.392 .392 0 0 1 -.568 -.41l.415 -2.411l-1.757 -1.707a0.389 .389 0 0 1 .217 -.665l2.428 -.352l1.086 -2.193a0.392 .392 0 0 1 .702 0l1.086 2.193l2.428 .352a0.39 .39 0 0 1 .217 .665l-1.757 1.707l.414 2.41a0.39 .39 0 0 1 -.567 .411l-2.172 -1.138z" />
+                      </svg>
+                      Calificación: 
+                    </strong>
+                  </label>
+                  <label class="form-control">{{porcentaje}} </label>
+                </div>
+              </div>
+              <hr>
+              <a  href="{% url 'clase:clases_estudiante' examen.curso.id %}" class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end w-100 btn" >Regresar a las clases</a>
+          {% endif %} 
+        </div>  
+      {% else %}  
+      {% include 'message.html' %}
+              <div class="justify-content-center">
+                
+                <div class="w-100">
+                  <label class="form-label">
+                    <strong>
+                      <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                        <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
+                        <path d="M11.8 16.817l-2.172 1.138a0.392 .392 0 0 1 -.568 -.41l.415 -2.411l-1.757 -1.707a0.389 .389 0 0 1 .217 -.665l2.428 -.352l1.086 -2.193a0.392 .392 0 0 1 .702 0l1.086 2.193l2.428 .352a0.39 .39 0 0 1 .217 .665l-1.757 1.707l.414 2.41a0.39 .39 0 0 1 -.567 .411l-2.172 -1.138z" />
+                      </svg>
+                      Calificación: 
+                    </strong>
+                  </label>
+                  <label class="form-control">{{porcentaje}} </label>
+                </div>
+              </div>
+              <hr>
+              <a  href="{% url 'clase:clases_estudiante' examen.curso.id %}" class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end w-100 btn" >Regresar a las clases</a>
+           
+      {% endif %}
+     
+    </div>
+  </div>
+</div>
+
+
+ 
+{% endblock contenido %}
+
+{% block js_externo %}
+<script>
+  function validarFormulario() {
+  var preguntas = document.querySelectorAll('h5[id]');
+
+  for (var i = 0; i < preguntas.length; i++) {
+    var preguntaId = preguntas[i].id;
+    var respuestas = document.querySelectorAll('input[name="respuesta-' + preguntaId + '"]:checked');
+    
+    if (respuestas.length === 0) {
+      var preguntaContainer = preguntas[i].parentNode;
+      var errorContainer = preguntaContainer.querySelector('.error-container');
+      
+      if (!errorContainer) {
+        errorContainer = document.createElement('div');
+        errorContainer.classList.add('error-container');
+        preguntaContainer.appendChild(errorContainer);
+      }
+      
+      errorContainer.innerHTML = '<div class="alert alert-danger">Debes seleccionar al menos una respuesta para esta pregunta.</div>';
+      return false; // Evitar que el formulario se envíe
+    }
+  }
+
+  // Si todas las preguntas tienen al menos una respuesta seleccionada, enviar el formulario
+  return true;
+  }
+</script>
+
+{% endblock js_externo %}

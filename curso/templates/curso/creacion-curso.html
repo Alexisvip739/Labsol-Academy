@@ -1,0 +1,129 @@
+<div class="modal modal-blur fade" id="modal-curso" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Crear Curso</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form method="post" enctype="multipart/form-data"  id='form-curso'>
+          {% csrf_token %}
+            <div class="mb-3">
+              <label class="form-label">Titulo del curso</label>
+              {{form.nombre}}
+            </div>
+            <div class="col-lg-12">
+              <div>
+                <label class="form-label">Descripción</label>
+                  {{form.descripcion}}
+              </div>
+            </div>
+            <br>
+            {% if request.user.user_type != 'instructor' %}
+            <div class="row">
+              <div class="col-lg-6">
+                <label class="form-label">Seleccione las etiquetas que corresponden</label>
+                  {% for etiqueta in form.etiquetas%}
+                    <label class="form-check form-check-inline"><span class="form-check-label">{{etiqueta}}</span></label>
+                  {% empty %}
+                    <label style="color:red;  font-size: 12px;">No hay etiquetas registradas por los administradores del sistema. </label> 
+                  {% endfor %} <br>
+                  <span class="error-message" id="error_etiquetas"></span>
+              </div>
+              <div class="col-lg-6">
+                <div class="mb-3">
+                  <label class="form-label">Instructor:</label>
+                  {{ form.instructor }}
+                </div>
+              </div>
+            </div>
+            {% else %}
+            <div class="mb-3">
+              <label class="form-label">Seleccione las etiquetas que corresponden</label>
+              {% for etiqueta in form.etiquetas%}
+                <label class="form-check form-check-inline"><span class="form-check-label">{{etiqueta}}</span></label>
+              {% empty %}
+                <label style="color:red;  font-size: 12px;">No hay etiquetas registradas por los administradores del sistema. </label> 
+              {% endfor %}
+              <br>
+              <span class="error-message" id="error_etiquetas"></span>
+            </div>
+            <input type="hidden" name="instructor" value="{{ request.user.id }}">
+            {% endif %}
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="mb-3">
+              <label class="form-label">Miniatura</label>
+              {{form.miniatura}}
+              <label style="color:red;  font-size: 12px;"> Resolución recomendada: 720×540px</label>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="mb-3">
+              <label class="form-label" >Archivo PDF</label>
+              {{form.archivo_pdf}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal"> Cancelar </a>
+        <button  class="btn btn-primary ms-auto" type="submit">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
+          Crear curso
+        </button>
+      </div>
+    </div>
+    </form> 
+  </div>
+</div>
+
+<script>
+  document.getElementById("form-curso").addEventListener("submit", function(event) {
+    event.preventDefault();
+    var etiquetas = document.getElementsByName('etiquetas');
+    var etiquetasSeleccionadas = false;
+    var errorEtiquetas = document.getElementById('error_etiquetas');
+
+    for (var i = 0; i < etiquetas.length; i++) {
+      if (etiquetas[i].checked) {
+        etiquetasSeleccionadas = true;
+        break;
+      }
+    }
+    
+
+    if (!etiquetasSeleccionadas) {
+      errorEtiquetas.textContent = 'Debe seleccionar al menos una etiqueta.';
+      return;
+    } else {
+      errorEtiquetas.textContent = ''; // Limpiar el mensaje de error si hay etiquetas seleccionadas
+    }
+
+    var formData = new FormData(event.target);
+    fetch("{% url 'curso:crear_curso' %}", {
+      method: "POST",
+      body: formData
+    })
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(data) {
+      if (data.success) {
+        document.getElementById("modal-curso").hidden = true;
+        document.getElementById("form-curso").reset();
+        location.reload()
+      } else {
+        for (var field in data.errors) {
+          var error = data.errors[field];
+          var input = document.getElementById('id_'+field);
+          input.classList.add("error");
+          input.nextSibling.textContent = error;
+        }
+      }
+    });
+  });
+</script>
+

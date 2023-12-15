@@ -1,0 +1,121 @@
+<div class="modal modal-blur fade" id="registro" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ actividad }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form method="post" enctype="multipart/form-data" action="{% url direccion_url %}" id="registro-form">
+        {% csrf_token %}
+        <div class="modal-body">
+          <div id="error-container"></div>
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label">Nombre/s:</label>
+                {{ forms.first_name }}
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label">Apellido/s:</label>
+                {{ forms.last_name }}
+              </div>
+            </div>
+          </div>
+
+          {% if act == 'externo' or request.user.is_superadmin %}
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label">Profesión</label>
+                {{ forms.profession }}
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label">Selecciona el tipo de usuario</label>
+                <select name="user_type" class="form-control" required id="id_user_type">
+                  <option value="" selected>Seleccione una opción</option>
+                  <option value="instructor">Instructor</option>
+                  <option value="estudiante">Estudiante</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+
+          {% if act == 'externo' %}
+          <input type="hidden" name="actividad" value="externo">
+          {% else %}
+          <input type="hidden" name="user_type" value="{{ tipo }}">
+          {% endif %}
+
+          {% if tipo == 'estudiante' or tipo == 'instructor' %}
+          <div class="mb-3">
+            <label class="form-label">Profesión:</label>
+            {{ forms.profession }}
+          </div>
+          {% endif %}
+          <div class="mb-3">
+            <label class="form-label">Correo electrónico:</label>
+            {{ forms.email }}
+          </div>
+
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label">Usuario</label>
+                {{ forms.username }}
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label">Contraseña</label>
+                {{ forms.password }}
+              </div>
+            </div>
+          </div>
+           {% if act == 'externo' %}
+          <div class="mb-3">
+            <center>
+              <input type="checkbox" class="mb-0" name="politicas"  required />
+            <label class="form-label">Al hacer uso de este sistema, aceptas nuestras <a href="{% url 'usuario:politicas_y_privacidad' %}"> políticas de privacidad. </a>
+            </label>
+            </center>
+          </div>
+          {% endif %}
+        </div>
+        <div class="modal-footer">
+          <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal" >Cancelar</a>
+          <button class="btn btn-primary ms-auto" type="submit">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+              <line x1="12" y1="5" x2="12" y2="19" />
+              <line x1="5" y1="12" x2="19" y2="12" />
+            </svg>
+            Guardar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal modal-blur fade" id="modalExitoso" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>  
+      </div>
+      <div class="modal-body text-center py-4">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon mb-2 text-green icon-lg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9" /><path d="M9 12l2 2l4 -4" />
+        </svg>
+        <h3 id="mensajeExitoso"></h3>
+      </div>
+    </div>
+  </div>
+</div>
+
+

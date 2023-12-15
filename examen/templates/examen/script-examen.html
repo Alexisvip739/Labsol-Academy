@@ -1,0 +1,27 @@
+<script>
+    document.getElementById("form-examen").addEventListener("submit", function(event) {
+    event.preventDefault();
+    var formData = new FormData(event.target);
+    fetch("{% url 'crear_examen' %}", {
+      method: "POST",
+      body: formData
+    })
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(data) {
+      if (data.success) {
+        document.getElementById("modal-examen").hidden = true;
+        document.getElementById("form-examen").reset();
+        location.reload()
+      } else {
+        for (var field in data.errors) {
+          var error = data.errors[field];
+          var input = document.getElementById('id_'+field);
+          input.classList.add("error");
+          input.nextSibling.textContent = error;
+        }
+      }
+    });
+  });
+  </script>

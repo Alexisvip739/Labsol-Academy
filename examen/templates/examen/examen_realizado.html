@@ -1,0 +1,14 @@
+{% extends 'base_externa.html' %} 
+{% load static %}
+
+{% block title %} {{ clase.titulo }} {% endblock title %}
+
+
+{% block contenido %}
+<div class="conteiner" style="height: 60vh; width: 100%; display: flex; flex-direction:column; justify-content: center; align-items: center;">
+   <h3>Ya realizaste este examen</h3> 
+   <p>Tu calificacion es de: {{porcentaje}}/100.0</p>
+</div>
+
+{% endblock contenido %}
+    

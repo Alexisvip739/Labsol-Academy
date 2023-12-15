@@ -1,0 +1,128 @@
+{% extends 'base_externa.html' %} 
+{% load static %}
+
+{% block contenido %}
+{% include 'message.html' %}
+
+{% if cursos_con_inscripcion %}
+<p id="mensaje_no_clases" class="mensaje-error" style=" display: none;text-align: center; justify-content: center; background-color: yellow; color: black;">No hay clases agregadas aún</p>
+<div class="container-xxl py-5">
+  <div class="container">
+    <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+      <h6 class="section-title bg-white text-center text-primary px-3">Cursos</h6>
+      <h1 class="mb-5">Cursos a los que te has inscrito</h1>
+    </div>
+    <div class="row g-4 justify-content-center">
+      {% for curso in cursos_con_inscripcion %}
+        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+          <div class="course-item bg-light">
+            <div class="position-relative overflow-hidden">
+              <img class="img-fluid" src="{{curso.miniatura.url}}" style="width: 500px; height: 200px;">
+              <div class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
+                <a class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px;" href="{% url 'curso:ver_curso' curso.id %}">Leer más</a>
+                <button class="flex-shrink-0 btn btn-sm btn-danger px-3" data-bs-toggle="modal" data-bs-target="#confirmacionDesinscripcion{{ curso.id }}">Desinscribirme</button>
+                <a id="ver_clase" onclick="cursoActual({{ curso.id }},{{request.user.id}})" class="flex-shrink-0 btn btn-sm btn-primary px-3" style="border-radius: 0 30px 30px 0;">Ver clases</a>
+              </div>
+            </div>
+            <div class="text-center p-4 pb-0">
+              <h5 class="mb-4" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 400px;">{{curso.nombre}}</h5>
+            </div>
+            <div class="d-flex border-top">
+              <small class="flex-fill text-center border-end py-2">
+                <i class="fa fa-user-tie text-primary me-2"></i>{{curso.instructor.first_name}} {{ curso.instructor.last_name }}
+              </small>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endif %}
+
+{% if cursos_sin_inscripcion%}
+<div class="container-xxl py-5">
+  <div class="container">
+    <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+      <h6 class="section-title bg-white text-center text-primary px-3">Cursos</h6>
+      <h1 class="mb-5">Cursos sugeridos</h1>
+    </div>
+    <form id="csrf-form">
+      {% csrf_token %}
+    </form>
+    <div class="owl-carousel testimonial-carousel position-relative">
+      {% for curso in cursos_sin_inscripcion %}
+        <div class="testimonial-item text-center">
+          <div class="course-item bg-light">
+            <div class="position-relative overflow-hidden">
+              <img class="img-fluid" src="{{ curso.miniatura.url }}" alt="" style="width: 500px; height: 200px;">
+              <div class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
+                <a href="{% url 'curso:ver_curso' curso.id %}" class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px;">Leer más</a>
+                <a class="flex-shrink-0 btn btn-sm btn-primary px-3" style="border-radius: 0 30px 30px 0;" href="{% url 'curso:inscripcion' curso.id  %}" >Inscribirte</a>
+              </div>
+            </div>
+            <div class="text-center p-4 pb-0">
+              <h5 class="mb-4" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 380px;">{{ curso.nombre }}</h5>
+              <div class="mb-3">
+                <ul class="list-unstyled d-flex">
+                  {% for etiqueta in curso.etiquetas.all %}
+                    <li class="px-2 bg-primary fw-bold rounded-pill me-1" style="font-size: 11px;">
+                      {{ etiqueta.nombre }}
+                    </li>
+                  {% endfor %}
+                </ul> 
+              </div>
+            </div>
+            <div class="d-flex border-top">
+              <small class="flex-fill text-center border-end py-2">
+                <i class="fa fa-user-tie text-primary me-2"></i>
+                {{ curso.instructor.first_name }} {{ curso.instructor.last_name }}
+              </small>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endif %}
+
+{% if not cursos_sin_inscripcion and not cursos_con_inscripcion %}
+<div id="class-message" data-class="0" class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
+  <div class="container text-center">
+      <div class="row justify-content-center">
+          <div class="col-lg-6">
+              <i class="bi bi-emoji-frown-fill display-1 text-primary"></i>
+              <h1 class="mb-4">No hay cursos disponibles por el momento</h1>
+          </div>
+      </div>
+  </div>
+</div>
+{% endif %}
+
+<!-- Modal de Confirmación Desinscripción -->
+{% for curso in cursos_con_inscripcion %}
+<div class="modal fade" id="confirmacionDesinscripcion{{ curso.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Confirmación</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ¿Estás seguro de que quieres desinscribirte de este curso?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <a class="btn btn-danger" href="{% url 'curso:eliminar_suscripcion' curso.id %}">Desinscribirme</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="{% static 'js/ultimo_curso_visto.js' %}"></script>
+
+
+{% endblock contenido %}
+

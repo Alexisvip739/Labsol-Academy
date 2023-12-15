@@ -1,0 +1,29 @@
+
+{% extends 'base_externa.html' %} 
+{% load static %}
+  
+{% block contenido %} 
+<link rel="stylesheet" type="text/css" href="{% static 'css/mostrar_porcentaje.css'  %}">
+<h1 class="texto_cursos">Avance de tus cursos</h1>
+  <h1 id="id_usuario" style="display:none">{{request.user.pk}}</h1>
+
+  <form id="csrf-form">
+    {% csrf_token %}
+  </form>
+  <div id="">
+    <div id='sin_cursos' class="w-100 h-100 flex-column justify-content-center align-items-center">
+      <i class="bi bi-emoji-frown-fill display-1 text-primary"></i>
+      <h1 class="mb-4">No hay cursos vistos por el momento</h1>
+    </div>
+  </div>
+  <div id="cursos-container"  class=" d-flex flex-row flex-wrap gap-0" style="height: 50vh; width: 90%; margin: 10px auto; justify-content: flex-start;">
+  </div>
+  
+{% endblock contenido %}
+
+
+{% block js_externo %}
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="{% static 'js/mostrar_porsentaje_estudiante.js' %}"></script>
+{% endblock js_externo %}
+  

@@ -1,0 +1,286 @@
+{% extends 'base_externa.html' %}
+{% load static %}
+
+{% block contenido %}
+<!-- Carousel Start -->
+<div class="container-fluid p-0 mb-5">
+  <div class="owl-carousel header-carousel position-relative">
+    <div class="owl-carousel-item position-relative">
+      <img class="img-fluid" src="{% static 'img/carousel-1.jpg'  %}" alt="">
+      <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center"
+        style="background: rgba(24, 29, 56, .7);">
+        <div class="container">
+          <div class="row justify-content-start">
+            <div class="col-sm-10 col-lg-8">
+              <h5 class="text-uppercase mb-3 animated slideInDown" style="color: #FFA500">¡Bienvenidos a nuestra
+                plataforma de cursos en línea!</h5>
+              <h1 class="display-3 text-white animated slideInDown">Labsol Academy</h1>
+              <p class="fs-5 text-white mb-4 pb-2"> Portal educativo de excelencia, donde la ciencia y la tecnología
+                convergen para potenciar tus habilidades. Con nuestra amplia oferta de cursos y talleres, te brindamos
+                la oportunidad de explorar y dominar nuevos horizontes en campos como desarrollo de software,
+                inteligencia artificial, ciberseguridad y más, de manera gratuita.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="owl-carousel-item position-relative">
+      <img class="img-fluid" src="{% static 'img/carousel-2.jpg'  %}" alt="">
+      <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center"
+        style="background: rgba(24, 29, 56, .7);">
+        <div class="container">
+          <div class="row justify-content-start">
+            <div class="col-sm-10 col-lg-8">
+              <h5 class="text-uppercase mb-3 animated slideInDown" style="color:#FFA500">
+                Labsol Academy</h5>
+              <h1 class="display-3 text-white animated slideInDown">Accede a todos los cursos en cualquier momento</h1>
+              <p class="fs-5 text-white mb-4 pb-2">
+                Tendrás acceso a una amplia gama de cursos diseñados para potenciar tus habilidades, ampliar tus
+                conocimientos y llevar tus metas al siguiente nivel, todo desde la comodidad de tu hogar y a tu propio
+                ritmo.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Carousel End -->
+
+
+<!-- Service Start -->
+<div class="container-xxl py-5">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="service-item text-center pt-3">
+          <div class="p-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-users-group" width="24"
+              height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+              <path d="M10 13a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"></path>
+              <path d="M8 21v-1a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v1"></path>
+              <path d="M15 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"></path>
+              <path d="M17 10h2a2 2 0 0 1 2 2v1"></path>
+              <path d="M5 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"></path>
+              <path d="M3 13v-1a2 2 0 0 1 2 -2h2"></path>
+            </svg>
+            <h5 class="mb-3">Instructores</h5>
+            <p>Expertos en sus respectivos campos, dedicados a compartir sus conocimientos y experiencias contigo. </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
+        <div class="service-item text-center pt-3">
+          <div class="p-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-certificate" width="24"
+              height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+              <path d="M15 15m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
+              <path d="M13 17.5v4.5l2 -1.5l2 1.5v-4.5"></path>
+              <path d="M10 19h-5a2 2 0 0 1 -2 -2v-10c0 -1.1 .9 -2 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -1 1.73"></path>
+              <path d="M6 9l12 0"></path>
+              <path d="M6 12l3 0"></path>
+              <path d="M6 15l2 0"></path>
+            </svg>
+            <h5 class="mb-3">Cursos</h5>
+            <p>Combinan contenido académico sólido con la flexibilidad de aprender a tu propio ritmo. </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.5s">
+        <div class="service-item text-center pt-3">
+          <div class="p-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-zoom" width="24"
+              height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+              <path d="M17.011 9.385v5.128l3.989 3.487v-12z"></path>
+              <path
+                d="M3.887 6h10.08c1.468 0 3.033 1.203 3.033 2.803v8.196a.991 .991 0 0 1 -.975 1h-10.373c-1.667 0 -2.652 -1.5 -2.652 -3l.01 -8a.882 .882 0 0 1 .208 -.71a.841 .841 0 0 1 .67 -.287z">
+              </path>
+            </svg>
+            <h5 class="mb-3">Conferencias</h5>
+            <p>Experiencias enriquecedoras diseñadas para sumergirte en el mundo de la innovación y el conocimiento.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.7s">
+        <div class="service-item text-center pt-3">
+          <div class="p-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-notebook" width="24" height="24"
+              viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+              <path d="M6 4h11a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-11a1 1 0 0 1 -1 -1v-14a1 1 0 0 1 1 -1m3 0v18"></path>
+              <path d="M13 8l2 0"></path>
+              <path d="M13 12l2 0"></path>
+            </svg>
+            <h5 class="mb-3">Contenido extra</h5>
+            <p>Cada curso y conferencia incluye materiales que te ayudarán a explorar los conceptos en mayor detalle.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Service End -->
+
+
+<!-- About Start -->
+<div class="container-xxl py-5">
+  <div class="container">
+    <div class="row g-5">
+      <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
+        <div class="position-relative h-100">
+          <img class="img-fluid position-absolute w-100 h-100" src="{% static 'img/img-1.jpg'  %}"
+            alt="Imagen de Labsol Academy" style="object-fit: cover;">
+        </div>
+      </div>
+      <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
+        <h6 class="section-title bg-white text-start text-primary pe-3">Acerca de nosotros</h6>
+        <h1 class="mb-4">Laboratorio de Software Libre</h1>
+        <p class="mb-4" style="text-align: justify;">Somos un laboratorio líder en desarrollo e implementación de
+          tecnologías innovadoras basadas en la ideología del Software Libre con el objetivo de proporcionar soluciones
+          prácticas y eficaces que cumplan con altos estándares de calidad, ademas desarrollamos proyectos de innovación
+          tecnológica con ayuda de nuestra comunidad la cual está conformada por alumnos de diferentes instituciones
+          educativas de nivel superior en el estado de Zacatecas, así como en diferentes instituciones por todo el país.
+        </p>
+        <div class="row gy-2 gx-4 mb-4">
+          <div class="col-sm-6">
+            <p class="mb-0">
+              <i class="fa fa-arrow-right text-primary me-2"></i>
+              Expertos
+            </p>
+          </div>
+          <div class="col-sm-6">
+            <p class="mb-0">
+              <i class="fa fa-arrow-right text-primary me-2"></i>
+              Cursos en linea
+            </p>
+          </div>
+          <div class="col-sm-6">
+            <p class="mb-0">
+              <i class="fa fa-arrow-right text-primary me-2"></i>
+              Conferencias
+            </p>
+          </div>
+          <div class="col-sm-6">
+            <p class="mb-0">
+              <i class="fa fa-arrow-right text-primary me-2"></i>
+              Otras actividades
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- About End -->
+
+<!-- Courses Start -->
+{% if cursos %}
+<div class="container-xxl py-5">
+  <div class="container">
+    <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+      <h6 class="section-title bg-white text-center text-primary px-3">Cursos</h6>
+      <h1 class="mb-5">Explora algunos cursos</h1>
+    </div>
+    <div class="owl-carousel testimonial-carousel position-relative">
+      {% for curso in cursos %}
+      <div class="testimonial-item text-center"
+        style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+        <img class="border rounded-circle p-2 mx-auto mb-3" src="{{ curso.miniatura.url }}"
+          style="width: 80px; height: 80px;" alt="imange del curso">
+        <h5 class="mb-0 text-center"
+          style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px;">{{curso.nombre}}
+        </h5>
+        <p class="text-center">{{ curso.instructor }}</p>
+        <div class="testimonial-text bg-light text-center p-4">
+          <a class="mb-0" href="{% url 'curso:ver_curso' curso.id %}">Ver más detalles</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endif %}
+
+<!-- Courses End -->
+
+
+<!-- Categories Start -->
+{% if etiquetas %}
+<div class="container-xxl py-5 category">
+  <div class="container">
+    <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+      <h6 class="section-title bg-white text-center text-primary px-3">Categorías</h6>
+      <h1 class="mb-5">Categorías de los cursos</h1>
+    </div>
+    <div class="row g-3">
+      {% for etiqueta in etiquetas%}
+      <div class="col-sm-6 col-md-4 col-lg-3 mb-5">
+        <div class="card shadow" style="border: none;">
+          <div class="card-body text-center">
+            <p class="card-text"> <img src="{{ etiqueta.miniatura.url }}" style="width:30px; height: 30px;"
+                alt="imagen de etiqueta" /> </p>
+            <h5 class="card-text fs-6 fw-bold">{{ etiqueta.nombre }}</h5>
+            <div class="d-flex flex-column etiqueta-container">
+              <p class="card-text fst-italic text-center"
+                style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 300px;">
+                {{etiqueta.descripcion}}</p>
+              <button class="leer-mas-btn"
+                style="border: none; border-radius: 10px; display: none; background-color: #2f3659; color: white;">Leer
+                mas</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+  </div>
+</div>
+{% endif %}
+<!-- Categories Start -->
+<!-- Apartado de instructores -->
+{% if instructores %}
+<div class="container-xxl py-5">
+  <div class="container">
+    <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+      <h6 class="section-title bg-white text-center text-primary px-3">Instructores</h6>
+      <h1 class="mb-5">Nuestros instructores</h1>
+    </div>
+    <div class="row g-4">
+      {% for instructor in instructores %}
+      <div class="col-lg-3 col-md-6 wow fadeInUp " data-wow-delay="0.1s">
+        <div class="team-item bg-light ">
+          <div class="overflow-hidden">
+            <img class="img-fluid " style=" width: 100%; height: 300px  " src="{{ instructor.profile_picture.url }}"
+              alt="Foto de perfil de instructor">
+          </div>
+          <div class="text-center p-4">
+            <h5 class="mb-0">{{instructor.first_name}} {{ instructor.last_name }}</h5>
+            <small>{{instructor.profession }}</small>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endif %}
+
+{% endblock contenido %}
+
+{% block modal_externo %}
+{% include 'usuario/modal-login.html' %}
+{% include 'usuario/modal-registro.html' %}
+{% endblock modal_externo %}
+
+{% block js_externo %}
+{% include 'usuario/modal-script.html' %}
+{% endblock js_externo %}

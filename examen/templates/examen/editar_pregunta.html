@@ -1,0 +1,82 @@
+{% extends 'base.html' %} 
+{% load static %}
+
+{% block title %} Editar pregunta {% endblock title %}
+
+
+{% block contenido %}
+{% include 'message.html' %}
+<div id="error-container"></div>
+<div class="col-md-12 col-lg-12">
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Modificar los datos necesarios:</h3>
+    </div>
+    <div class="card-body">
+      <form method="POST" enctype="multipart/form-data" onsubmit="return validarFormulario()">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label for="pregunta" class="form-label">Editar pregunta: </label>
+          <input type="text" class="form-control" id="pregunta" placeholder="Ingresa la pregunta" name="pregunta" required value="{{ pregunta.texto }}">
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="mb-3">
+                    <label for="respuesta1" class="form-label">Respuesta número 1:</label>
+                    <input type="text" value="{{respuestas.0}}" class="form-control" id="respuesta1" placeholder="Ingresa la respuesta 1" name="respuesta1" required>
+                    <input type="hidden" value="{{respuestas.0.id}}" id="id_respuesta1" name="id_respuesta1" >
+                    <small class="form-hint">
+                        <input type="checkbox" name="respuesta1-es_correcta" {% if respuestas.0.es_correcta %} checked {% endif %} > Es correcta
+                    </small>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="mb-3">
+                    <label for="respuesta2" class="form-label">Respuesta número 2:</label>
+                    <input type="text" value="{{respuestas.1}}" class="form-control" id="respuesta2" placeholder="Ingresa la respuesta 2" name="respuesta2" required>
+                    <input type="hidden" value="{{respuestas.1.id}}" id="id_respuesta2" name="id_respuesta2" >
+                    <small class="form-hint">
+                        <input type="checkbox" name="respuesta2-es_correcta" {% if respuestas.1.es_correcta %} checked {% endif %}> Es correcta
+                    </small>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="mb-3">
+                    <label for="respuesta3" class="form-label">Respuesta número 3:</label>
+                    <input type="text" value="{{respuestas.2}}" class="form-control" id="respuesta3" placeholder="Ingresa la respuesta 3" name="respuesta3" required>
+                    <input type="hidden" value="{{respuestas.2.id}}" id="id_respuesta3" name="id_respuesta3" >
+                    <small class="form-hint">
+                        <input type="checkbox" name="respuesta3-es_correcta" {% if respuestas.2.es_correcta %} checked {% endif %}> Es correcta
+                    </small>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="mb-3">
+                    <label for="respuesta3" class="form-label">Respuesta número 4:</label>
+                    <input type="text" value="{{respuestas.3}}" class="form-control" id="respuesta4" placeholder="Ingresa la respuesta 4" name="respuesta4" required>
+                    <input type="hidden" value="{{respuestas.3.id}}" id="id_respuesta4" name="id_respuesta4" >
+                    <small class="form-hint">
+                        <input type="checkbox" name="respuesta4-es_correcta" {% if respuestas.3.es_correcta %} checked {% endif %} > Es correcta
+                    </small>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+          <div class="card-footer text-end">
+                <div class="d-flex">
+                  <a href="javascript:history.back()" class="btn btn-link">Regresar</a>
+                  <button type="submit" class="btn btn-primary ms-auto">Guardar</button>
+                </div>
+              </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock contenido %}
+
+{% block js %} 
+{% include 'examen/script-pregunta.html' %}
+{% endblock js %}

@@ -1,0 +1,28 @@
+<script>
+    function validarFormulario() {
+    // Seleccionar todas las casillas de verificación "Es correcta"
+    var casillasCorrectas = document.querySelectorAll('[name^="respuesta"][name$="-es_correcta"]');
+    var contadorSeleccionadas = 0;
+
+    // Contar el número de casillas seleccionadas
+    casillasCorrectas.forEach(function(casilla) {
+        if (casilla.checked) {
+        contadorSeleccionadas++;
+        }
+    });
+
+    // Mostrar mensaje de error si no se selecciona ninguna o más de una casilla
+    if (contadorSeleccionadas === 0) {
+        var errorContainer = document.getElementById('error-container');
+        errorContainer.innerHTML = '<div class="alert alert-danger">Debes seleccionar una respuesta correcta.</div>';
+        return false; // Evitar que el formulario se envíe
+    } else if (contadorSeleccionadas > 1) {
+        var errorContainer = document.getElementById('error-container');
+        errorContainer.innerHTML = '<div class="alert alert-danger">Solo puedes seleccionar una respuesta correcta.</div>';
+        return false; // Evitar que el formulario se envíe
+    }
+
+    // Si solo se selecciona una casilla, enviar el formulario
+    return true;
+    }
+</script>

@@ -1,0 +1,120 @@
+{% extends 'base.html' %} 
+{% load static %}
+
+{% block title %} Ver perfil {% endblock title %}
+{% block botones %} 
+
+{% endblock botones %}
+
+{% block contenido %}
+<div class="row row-cards">
+  <div class="col-lg-6">
+    <div class="card card-lg">
+      <div class="card-body">
+        <div class="markdown">
+          <img src="{{request.user.profile_picture.url}}"style="text-align: center; width: 180px; height: 180px; border: 1px solid black;">  <br><br>
+          <h5>Descripción</h5>
+          <p class="mb-4" style="text-align: justify;">
+            {% if request.user.descripcion %}
+              {{ request.user.descripcion }}
+            {% else %}
+            No hay descripción del perfil.
+            {% endif %}
+          </p>     
+          <div class="d-flex align-items-center mb-3">
+            <div class="d-flex align-items-center justify-content-center flex-shrink-0 bg-primary" style="width: 50px; height: 50px;">
+              <i class="fa fa-user-tie text-white fa-2xl"></i>
+            </div>
+            {% if request.user.user_type == 'admin' %}
+            <div class="ms-3">
+                <h5 class="text-primary">Profesión</h5>
+                <p class="mb-0">{{request.user.profession}}</p>
+            </div>
+            {% endif %}
+          </div>
+          <div class="d-flex align-items-center mb-3">
+              <div class="d-flex align-items-center justify-content-center flex-shrink-0 bg-primary" style="width: 50px; height: 50px;">
+                  <i class="fa fa-id-badge text-white fa-2xl"></i>
+              </div>
+              <div class="ms-3">
+                  <h5 class="text-primary">Tipo de usuario</h5>
+                  <p class="mb-0">{{ request.user.user_type }}</p>
+              </div>
+          </div>
+          <div class="d-flex align-items-center">
+              <div class="d-flex align-items-center justify-content-center flex-shrink-0 bg-primary" style="width: 50px; height: 50px;">
+                  <i class="fa fa-envelope-open text-white"></i>
+              </div>
+              <div class="ms-3">
+                  <h5 class="text-primary">Correo electrónico</h5>
+                  <p class="mb-0">{{request.user.email}}</p>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <div class="card">
+      <div class="card-body">
+        {% include 'message.html' %}
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="row g-3">
+            <div class="col-md-6">
+              <div class="form-floating">
+                {{ forms.first_name }}
+                <label for="name">Nombre completo</label>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-floating">
+                {{ forms.last_name }}
+                <label for="last_name">Apellido(s)</label>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-floating">
+                {{ forms.profession }}
+                  <label for="profession">Profesión</label>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-floating">
+                <textarea class="form-control" id="descripcion" name="descripcion" style="height: 150px" >{{ forms.descripcion.value }}</textarea>
+                  <label for="descripcion" >Ingresa una descripción para tu perfil</label>
+              </div>
+            </div>
+            <div class="col-12">
+                <div class="form-floating">
+                  {{ forms.email }}
+                    <label for="email">Correo electrónico</label>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-floating">
+                    {{ forms.username }}
+                    <label for="username">Nombre de usuario</label>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-floating">
+                  {{ forms.profile_picture }}
+                    <label for="profession">Foto de perfil</label>
+                </div>
+            </div>
+            <input type="hidden" name="user_type" value="{{ forms.user_type.value }}">
+            <div class="col-12">
+                <button class="btn btn-primary w-100 py-3" type="submit">Editar perfil</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock contenido %}
+
+{% block js %} >
+{% endblock js %}

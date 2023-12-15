@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        .container {
+            margin: 0 auto;
+        }
+
+        .logo {
+            width: 50%;
+            height: 50%;
+        }
+
+        .italic-text {
+            font-style: italic;
+            opacity: 0.8;
+        }
+
+        .main {
+            text-align: center;
+            margin: 10px;
+            color: #333;
+            min-width: 300px;
+            max-width: 300px;
+        }
+
+        /* Sección Card */
+        .card {
+            width: 100%;
+            height: 100%;
+            background: #ffffff;
+            border: 1px solid #e9e9e9;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .card-content {
+            padding: 0 20px;
+        }
+
+        .card-title {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .card-info {
+            margin-bottom: 20px;
+        }
+        /* Fin Card */
+
+        /* Seccion info */
+        .info-section {
+            width: 100%;
+            max-width: 50%;
+            min-width: 50%;
+            margin: 0 auto;
+        }
+
+        .info-list{ 
+            padding: 0; 
+            list-style: none; 
+            font-size: xx-small; 
+            white-space: nowrap; 
+            color: #333;
+        }
+
+        .info-list li{
+            margin: 0;
+        }
+
+        /* Fin info */
+        
+        /* Sección footer */
+        .copyright-section {
+            color: gray;
+            padding: 25px 0;
+            font-size: 15px;
+        }
+
+        .copyright-text {
+            text-align: center;
+            font-size: x-small;
+        }
+        /* Fin footer */
+    </style>
+</head>
+<body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background: #f4f4f4; display: flex; width: auto;">
+    <div class="container">
+        <div class="main">
+            <img src="/static/img/Logos Labsol 2023-02.png" alt="Labsol Academy" class="logo">
+            <div class="card">
+                <div class="card-title" style="border-radius: 5px; background: #2F3659; color: #ffffff;">
+                    <h2 style="margin: 0; padding: 20px;">{{notificacion.asunto}}</h2>
+                </div>
+                <div class="card-content">
+                    <div class="card-info">
+                        <h5 style="margin: 0; margin-button: 10px;">Descripcion:</h5>
+                        <p style="color: #333; font-size: x-small; margin-bottom: 25px;">
+                            {{notificacion.descripcion}}
+                        </p>
+                        <div class="info-section">
+                            <ul class="info-list">
+                                <li class="italic-text">{{ notificacion.fecha_creacion.date }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="copyright-section">
+            <div class="copyright-text">
+              &copy; <a style="color: gray;" href="#">Labsol Academy</a> Todos los derechos reservados, 2023. <br>
+              Hecho por el <a href='#' style="color: gray;">Laboratorio de Software Libre.</a><br><br>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+</body>
+</html>

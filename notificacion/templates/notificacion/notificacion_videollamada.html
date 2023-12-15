@@ -1,0 +1,85 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Labsol Academy</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+</head>
+
+<body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4; overflow-y: scroll; display: flex; width: auto;">
+  <div style="margin: 0 auto;">
+    <div style="text-align: center; margin: 10px; color: #333; min-width: 300px; max-width: 300px;">
+      <img src="/static/img/Logos Labsol 2023-02.png" alt="Labsol Academy" style="width: 50%; height: 50%;">
+      <div name="card" style="width: 100%; height: 100%; background-color: #ffffff; border: 1px solid #e9e9e9;  border-radius: 5px;margin-bottom: 10px;">
+        <div style="padding: 20px;">
+          <div style="margin-bottom: 20px; color: #333;">
+            <h2 style="">{{ videollamada.titulo }} titulo de presentación</h1>
+            <div style="font-style: italic; opacity: 0.8;">Impartido por {{videollamada.instructor}}</div>
+          </div>
+          <img src="{{videollamada.miniatura.url}}" alt="miniatura" style="object-fit: cover; width: 100%; height: 100%;">
+          <h6 style="color: #333; text-align:center;">Sobre la conferencia</h6>
+          <p style="color: #333; text-align: justify; width: 100%; font-size: x-small;">{{ videollamada.descripcion }}</p>
+          <div style="display: flex; margin-bottom: 20px;">
+  
+            <div style="width: 50%; max-width: 50%; min-width: 50%; margin-right: 5px;">
+              <h5 style="font-size: x-small;">Datos de realización: </h5>
+              <ul style="text-align: left; padding: 0; list-style: none; font-size: xx-small; white-space: nowrap; color: #333;">
+                <li style="margin: 0; color: #333;">
+                  Fecha: {{ videollamada.fecha_reunion }}
+                </li>
+                <li style="margin: 0;">
+                  Hora: {{ videollamada.hora }}
+                </li>
+                <li style="margin: 0; overflow: hidden; text-overflow: ellipsis;">
+                  Enlace: {{ videollamada.enlace }}
+                </li>
+              </ul>
+            </div>
+            <div name="card-info" style="width: 50%; overflow: hidden; margin-left: auto; color: #333; max-width: 50%; min-width: 50%; margin-left: 5px:">
+              <h5 style="font-size: x-small;">Archivo PDF:</h4>
+              {% if videollamada.archivo %}
+              <ul style="list-style: none; padding: 0;">
+                <li style="margin: 0;">
+                  <a class="d-block" href='{{videollamada.archivo.url}}'>
+                    <center> 
+                      <img src="{% static 'img/pdf.png' %}" width="100" height="80" >
+                    </center>
+                  </a><br>
+                </li>
+              </ul>
+              {% else %}
+              <p style="color: #333; font-size: x-small;">No se a proporcionado ningún archivo PDF.</p>
+              {% endif %}
+            </div>
+          </div>
+          <div style="border-top: 1px solid gray; width:100%; padding-top: 25px; text-align: center; color: #333;">
+            <h2 style="font-size: x-small;">Acerca del instructor</h2>
+            <div style="display: flex; margin: 0 auto; color: #333;">
+              <img style="border-radius: 100%; margin-right: 10px; width: 75px; height: 75px;" id="user-profile" src="{{ videollamada.instructor.profile_picture.url }}" alt="Foto de perfil">
+              <div style="width: 100%; text-align: left; width: auto; color: #333;">
+                <h3 style="margin-top: 0; font-size: x-small;">{{videollamada.instructor.first_name}} {{ videollamada.instructor.last_name }} instructor robert</h3>
+                {% if  curso.instructor.descripcion  %}
+                <p style="text-align: justify; font-size: x-small; font-style: italic; opacity: 0.8;">{{ curso.instructor.descripcion }}</p>
+                {% else %}
+                <p style="text-align: justify; font-size: x-small; font-style: italic; opacity: 0.8;">Este instructor no ha agregado una descripción.</p>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div name="copyright" style="color: gray; padding: 25px 0; font-size: 15px;">
+        <div style="text-align: center; font-size: x-small;">
+          &copy; <a style="color: gray;" href="#">Labsol Academy</a> Todos los derechos reservados, 2023. <br>
+          Hecho por el <a href='#' style="color: gray;">Laboratorio de Software Libre.</a><br><br>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
